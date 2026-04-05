@@ -18,5 +18,22 @@
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "backlog",
+    "task-management",
+    "markdown",
+    "cli"
+  ],
+  "author": "jmlweb (https://github.com/jmlweb)",
+  "homepage": "https://github.com/jmlweb/flowstate-skill#-quick-start",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmlweb/flowstate-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jmlweb/flowstate-skill/issues"
+  },
   "license": "MIT"
 }
