@@ -1,6 +1,6 @@
 ---
 name: complete-task
-description: Complete a task, move to done, extract learnings, update index
+description: Mark a task as completed and move it to done. Use when the user finishes work, says "done with task", "complete task", "mark as done", or when all acceptance criteria are met. Verifies criteria, extracts learnings, updates frontmatter with completion date, and suggests the next task to work on.
 argument-hint: [task ID or number]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: haiku

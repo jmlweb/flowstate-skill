@@ -1,6 +1,6 @@
 ---
 name: next-task
-description: Suggest the best next task to work on
+description: Analyze the backlog and recommend the best task to start next. Use when the user asks "what should I work on?", "next task", "what's the priority?", or needs help deciding between multiple pending items. Scores tasks by priority, blocked status, unblocking potential, tag affinity with recent work, and age. Presents top pick with reasoning and alternatives.
 allowed-tools: [Read, Bash, Glob, Grep]
 model: haiku
 ---

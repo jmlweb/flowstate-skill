@@ -1,6 +1,6 @@
 ---
 name: add-task
-description: Groom and add a new task to the backlog
+description: Interactively groom and add a new task to the backlog. Use when the user wants to add work, create a ticket, file a TODO, track a feature request, or says "add task", "new task", "I need to do X". Guides through title, description, acceptance criteria, priority (P1-P4), tags, and dependencies. Creates the file and updates the task index automatically via CLI.
 argument-hint: [task description]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet

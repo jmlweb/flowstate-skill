@@ -1,6 +1,6 @@
 ---
 name: block-task
-description: Mark a task as blocked with a reason
+description: Mark a task as blocked with a documented reason. Use when the user hits a dependency, external blocker, technical limitation, or needs clarification — says "blocked by", "can't proceed", "waiting for", "stuck on". Updates frontmatter with blocked status and reason, adds progress log, and suggests alternative unblocked tasks to work on instead.
 argument-hint: [task ID] [reason]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: haiku

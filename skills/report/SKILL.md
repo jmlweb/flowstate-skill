@@ -1,6 +1,6 @@
 ---
 name: report
-description: File a bug report, finding, improvement suggestion, or security issue
+description: File a structured bug report, finding, improvement suggestion, or security issue. Use when the user discovers a bug, says "found a bug", "report issue", "file a finding", "security concern", or when something unexpected is observed during development. Guides through type classification, severity assessment, reproduction steps, and evidence gathering. Saved for later triage.
 argument-hint: [report description]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet

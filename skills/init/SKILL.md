@@ -1,6 +1,6 @@
 ---
 name: init
-description: Initialize the .backlog/ directory structure in the current project
+description: Initialize the .backlog/ directory structure in the current project. Use when starting a new project, setting up backlog management, or when the user says "set up flowstate", "create backlog", or "initialize tracking". Creates tasks/, plans/, reports/, and learnings/ directories with index files. Safe to run multiple times (idempotent).
 argument-hint: [project name]
 allowed-tools: [Bash, Read, Write, Glob]
 model: haiku

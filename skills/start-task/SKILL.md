@@ -1,6 +1,6 @@
 ---
 name: start-task
-description: Start working on a task (move to active)
+description: Start working on a task by moving it from pending to active. Use when the user says "start task", "begin working on", "pick up task", or wants to begin implementing something from the backlog. Validates the task is not blocked, updates frontmatter with started date, adds progress log entry, and updates the task index.
 argument-hint: [task ID or number]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: haiku

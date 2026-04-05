@@ -1,6 +1,6 @@
 ---
 name: triage-report
-description: Triage a pending report (convert to task, discard, or request more info)
+description: Triage a pending report by converting it to a task, discarding it, or requesting more information. Use when the user says "triage report", "handle this bug", "convert to task", or when pending reports need attention. Presents the report summary, suggests priority based on severity, and handles the conversion to a backlog task with proper source linking.
 argument-hint: [report ID]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet

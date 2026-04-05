@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Generate an implementation plan for a feature or change
+description: Generate a detailed implementation plan for a feature or change before coding begins. Use when the user describes a complex feature, says "plan this", "how should we implement", "design approach", or when a task needs architectural thinking before implementation. Explores the codebase, identifies files to modify, assesses risks, and saves the plan for review.
 argument-hint: [feature description]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet
