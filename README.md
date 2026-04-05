@@ -18,20 +18,31 @@ Flowstate adds a structured, file-based backlog to any project. Everything lives
 
 ## Installation
 
-### As a Claude Code plugin
+### From a marketplace
+
+If Flowstate is available in a marketplace you've added, install it directly from Claude Code:
+
+```
+/plugin install flowstate@<marketplace-name>
+```
+
+Then run `/reload-plugins` to activate it.
+
+### Manual installation
+
+No build step needed — `dist/` is included in the repo.
 
 ```bash
 # Clone the repo
 git clone https://github.com/jmlweb/flowstate-skill.git ~/.claude/plugins/flowstate
 
-# Install dependencies and build the CLI
-cd ~/.claude/plugins/flowstate && pnpm install && pnpm build
-
 # Or add it as a submodule in your project
 git submodule add https://github.com/jmlweb/flowstate-skill.git .claude/plugins/flowstate
 ```
 
-Then in your project, run:
+### Getting started
+
+Once installed, run in your project:
 
 ```
 /flowstate:init
