@@ -156,8 +156,9 @@ async function rebuildLearningsIndex(cwd: string): Promise<void> {
       const doc = await readEntity(indexFile);
       const fm = doc.frontmatter as Record<string, unknown>;
       const tags = Array.isArray(fm["tags"]) ? (fm["tags"] as string[]).join(", ") : "";
+      const status = fm["status"] ? String(fm["status"]) : "active";
       rows.push(
-        `| ${fm["id"]} | ${fm["title"]} | ${tags} | ${fm["created"]} |`,
+        `| ${fm["id"]} | ${fm["title"]} | ${tags} | ${status} | ${fm["created"]} |`,
       );
     } catch {
       // Skip invalid entries

@@ -31,8 +31,8 @@ const LEARNINGS_INDEX_TEMPLATE = (name) => `# ${name} - Learnings Index
 
 > Consult a learning's full document before starting related work.
 
-| ID | Title | Tags | Date |
-|----|-------|------|------|
+| ID | Title | Tags | Status | Date |
+|----|-------|------|--------|------|
 `;
 export async function init(cwd, projectName) {
     const root = backlogRoot(cwd);

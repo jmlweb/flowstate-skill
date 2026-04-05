@@ -29,6 +29,7 @@ export async function learningCreate(
   const frontmatter: Record<string, unknown> = {
     id,
     title: input.title,
+    status: "active",
     tags: [...input.tags],
     task: input.task ?? "",
     created: date,
@@ -40,7 +41,7 @@ export async function learningCreate(
   const indexPath = learningsIndexPath(cwd);
   let indexContent = await readFile(indexPath, "utf-8");
   const tags = input.tags.length > 0 ? input.tags.join(", ") : "";
-  const row = `| ${id} | ${input.title} | ${tags} | ${date} |`;
+  const row = `| ${id} | ${input.title} | ${tags} | active | ${date} |`;
 
   // Append row after last table row (or separator)
   const lines = indexContent.split("\n");

@@ -167,7 +167,7 @@ Use `/reload-plugins` after making changes.
 
 Skills that involve starting or planning work automatically load relevant context before acting:
 
-- **Learnings** — filtered by tag overlap with your task
+- **Learnings** — retrieved via deterministic CLI search (scored by tag match + keyword relevance)
 - **Active tasks** — to spot conflicts and overlaps
 - **Pending reports** — known bugs in scope
 
@@ -351,7 +351,7 @@ Implement JWT-based auth for the API.
 ```mermaid
 flowchart LR
     S["/flowstate:start-task TSK-005"] --> CL{Context loader}
-    CL --> L["Learnings<br/><i>filtered by tag overlap</i>"]
+    CL --> L["Learnings<br/><i>CLI search by tags + keywords</i>"]
     CL --> A["Active tasks<br/><i>spot conflicts</i>"]
     CL --> R["Pending reports<br/><i>known bugs in scope</i>"]
     L & A & R --> SK["Skill proceeds<br/>with full awareness"]

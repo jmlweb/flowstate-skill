@@ -38,7 +38,11 @@ For each pending non-blocked task:
 
 Once the top candidate is identified:
 
-1. **Learnings**: Read `.backlog/learnings/index.md`. Filter by tag overlap with the top pick's tags. Read full content of matches (up to 3). These help the user decide if the task is ready or if past issues should be considered first.
+1. **Learnings**: Search for relevant learnings using the CLI. Pass the task's tags and its title + description for maximum keyword coverage:
+   ```bash
+   $FLOWSTATE_CLI learning-search --tags "{{TOP_PICK_TAGS}}" --query "{{TOP_PICK_TITLE}} {{TOP_PICK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+   ```
+   The CLI returns only active learnings, scored by tag match and keyword relevance. These help the user decide if the task is ready or if past issues should be considered first.
 2. **Pending reports**: Scan `.backlog/reports/pending/` for anything related to the top pick's scope.
 
 If no matches, skip silently.

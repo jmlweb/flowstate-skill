@@ -32,7 +32,11 @@ If `$ARGUMENTS` provided, use it as the starting point. Otherwise ask:
 
 Before exploring code, gather backlog context:
 
-1. **Learnings**: Read `.backlog/learnings/index.md`. Filter entries by keyword match against the feature description. Read the full content of matching learnings (up to 3 most relevant). These may reveal past decisions, gotchas, or proven patterns that should inform the plan.
+1. **Learnings**: Search for relevant learnings using the CLI. Pass the feature description as the query:
+   ```bash
+   $FLOWSTATE_CLI learning-search --query "{{FEATURE_DESCRIPTION}}" --limit 3 --body true --json true
+   ```
+   The CLI returns only active learnings, scored by keyword relevance. These may reveal past decisions, gotchas, or proven patterns that should inform the plan.
 2. **Active tasks**: Read `.backlog/tasks/active/` — the plan should account for work already in progress to avoid conflicts or duplication.
 3. **Pending reports**: Scan `.backlog/reports/pending/` for related bugs or findings that the plan should address or acknowledge.
 

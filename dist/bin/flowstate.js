@@ -13,6 +13,7 @@ import { planMove } from "../commands/plan-move.js";
 import { reportCreate } from "../commands/report-create.js";
 import { reportMove } from "../commands/report-move.js";
 import { learningCreate } from "../commands/learning-create.js";
+import { learningSearch } from "../commands/learning-search.js";
 import { validatePriority, validateComplexity, validateReportType, validateSeverity } from "../core/types.js";
 const cwd = process.cwd();
 function parseArgs(args) {
@@ -64,7 +65,7 @@ async function getBody(flags) {
 async function main() {
     const [command, ...rest] = process.argv.slice(2);
     if (!command) {
-        console.error("Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create");
+        console.error("Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create, learning-search");
         process.exit(1);
     }
     const { flags, flagArrays, positional } = parseArgs(rest);
@@ -207,6 +208,16 @@ async function main() {
                     tags: flags["tags"] ? flags["tags"].split(",").map((t) => t.trim()) : [],
                     body,
                     task: flags["task"],
+                });
+                output(result, json);
+                break;
+            }
+            case "learning-search": {
+                const result = await learningSearch(cwd, {
+                    tags: flags["tags"] ? flags["tags"].split(",").map((t) => t.trim()) : undefined,
+                    query: flags["query"],
+                    limit: flags["limit"] ? parseInt(flags["limit"], 10) : undefined,
+                    includeBody: flags["body"] === "true",
                 });
                 output(result, json);
                 break;

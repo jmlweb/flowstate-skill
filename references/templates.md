@@ -155,6 +155,7 @@ File: `learnings/LRN-XXX-slug/index.md`
 ---
 id: LRN-XXX
 title: {{TITLE}}
+status: active
 tags: [{{tag1}}, {{tag2}}]
 task: {{TSK-XXX or empty}}
 created: {{YYYY-MM-DD}}
@@ -215,8 +216,8 @@ _No active tasks._
 
 > Consult a learning's full document before starting related work.
 
-| ID | Title | Tags | Date |
-|----|-------|------|------|
+| ID | Title | Tags | Status | Date |
+|----|-------|------|--------|------|
 ```
 
 ---

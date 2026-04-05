@@ -117,7 +117,8 @@ async function rebuildLearningsIndex(cwd) {
             const doc = await readEntity(indexFile);
             const fm = doc.frontmatter;
             const tags = Array.isArray(fm["tags"]) ? fm["tags"].join(", ") : "";
-            rows.push(`| ${fm["id"]} | ${fm["title"]} | ${tags} | ${fm["created"]} |`);
+            const status = fm["status"] ? String(fm["status"]) : "active";
+            rows.push(`| ${fm["id"]} | ${fm["title"]} | ${tags} | ${status} | ${fm["created"]} |`);
         }
         catch {
             // Skip invalid entries

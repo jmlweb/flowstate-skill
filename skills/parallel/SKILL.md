@@ -60,7 +60,13 @@ The CLI handles frontmatter updates, file moves, and index updates.
 
 ### 5. Load Context for Subagents
 
-Before launching, read `.backlog/learnings/index.md` once. For each selected task, filter learnings whose tags overlap with the task's tags or whose title matches the task description. Read the full content of matching learnings (up to 3 per task).
+Before launching, search for relevant learnings for each selected task using the CLI:
+
+```bash
+$FLOWSTATE_CLI learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+```
+
+The CLI returns only active learnings, scored by tag match and keyword relevance. Run once per task.
 
 Also scan `.backlog/reports/pending/` for any reports related to each task's scope.
 

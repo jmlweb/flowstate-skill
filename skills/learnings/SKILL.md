@@ -26,10 +26,11 @@ Read `.backlog/learnings/index.md`.
 
 ### 2. If Search Term Provided
 
-Search through learning directories:
+Search using the CLI for deterministic, scored results:
 
 ```bash
-grep -rl "{{SEARCH_TERM}}" .backlog/learnings/LRN-*/index.md 2>/dev/null
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
+$FLOWSTATE_CLI learning-search --query "{{SEARCH_TERM}}" --limit 10 --json true
 ```
 
 Present matches:
@@ -37,8 +38,8 @@ Present matches:
 ```
 ## Search Results for "{{TERM}}"
 
-| ID | Title | Tags | Date |
-|----|-------|------|------|
+| ID | Title | Tags | Score | Date |
+|----|-------|------|-------|------|
 
 Enter a learning ID to read the full document.
 ```
@@ -50,8 +51,8 @@ Display the full index:
 ```
 ## Learnings Index ({{N}} entries)
 
-| ID | Title | Tags | Date |
-|----|-------|------|------|
+| ID | Title | Tags | Status | Date |
+|----|-------|------|--------|------|
 
 Enter a learning ID to read the full document, or a search term to filter.
 ```

@@ -3,6 +3,7 @@ export type Priority = "P1" | "P2" | "P3" | "P4";
 export type TaskStatus = "pending" | "active" | "blocked" | "complete";
 export type PlanStatus = "pending" | "approved" | "discarded";
 export type ReportStatus = "pending" | "triaged" | "discarded";
+export type LearningStatus = "active" | "superseded" | "archived";
 export type ReportType = "bug" | "finding" | "improvement" | "security";
 export type Severity = "critical" | "high" | "medium" | "low";
 export type Complexity = "low" | "medium" | "high";
@@ -43,6 +44,7 @@ export interface ReportFrontmatter {
 export interface LearningFrontmatter {
     readonly id: string;
     readonly title: string;
+    readonly status: LearningStatus;
     readonly tags: readonly string[];
     readonly task: string;
     readonly created: string;
