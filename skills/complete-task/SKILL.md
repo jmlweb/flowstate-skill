@@ -10,12 +10,6 @@ model: haiku
 
 Mark a task as completed, move it to the complete directory, and handle learnings.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.

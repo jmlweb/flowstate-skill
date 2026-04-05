@@ -25,6 +25,6 @@ export async function listFiles(dir) {
 }
 export async function findEntityFile(dir, idPrefix) {
     const files = await listFiles(dir);
-    const match = files.find((f) => f.name.startsWith(idPrefix));
+    const match = files.find((f) => f.name.startsWith(idPrefix + "-"));
     return match?.name;
 }

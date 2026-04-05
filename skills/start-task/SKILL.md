@@ -10,12 +10,6 @@ model: haiku
 
 Mark a task as in-progress and move it to the active directory.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.
@@ -38,7 +32,17 @@ If no argument, list all pending non-blocked tasks and ask which to start.
 - Task must NOT have `status: blocked` in frontmatter
 - If blocked, show the reason and suggest resolving it first
 
-### 3. Move Task to Active
+### 3. Load Context
+
+Before moving the task, gather relevant context automatically:
+
+1. **Learnings**: Read `.backlog/learnings/index.md`. Filter entries whose tags overlap with the task's `tags` or whose title is relevant to the task description. Read the full content of matching learnings (up to 3 most relevant).
+2. **Active tasks**: Read `.backlog/tasks/active/` to list what else is in progress — helps the user understand current workload and spot potential overlaps.
+3. **Pending reports**: Scan `.backlog/reports/pending/` titles for anything related to this task's scope — avoids working on something with a known open issue.
+
+If no learnings or reports match, skip silently — do not mention the absence.
+
+### 4. Move Task to Active
 
 ```bash
 $FLOWSTATE_CLI task-move {{ID}} --to active
@@ -46,7 +50,7 @@ $FLOWSTATE_CLI task-move {{ID}} --to active
 
 The CLI moves the file, updates frontmatter (`status: active`, `started: today`), adds a progress log entry, and updates `tasks/index.md` automatically.
 
-### 4. Show Task Summary
+### 5. Show Task Summary
 
 ```
 Started TSK-{{ID}}: {{TITLE}}
@@ -54,6 +58,12 @@ Started TSK-{{ID}}: {{TITLE}}
 ## Acceptance Criteria
 - [ ] Criterion 1
 - [ ] Criterion 2
+
+## Relevant Learnings          ← only if matches found
+- LRN-XXX: {{TITLE}} — {{key insight}}
+
+## Also Active                 ← only if other active tasks exist
+- TSK-YYY: {{TITLE}}
 
 Reminders:
   /flowstate:add-learning   — Document insights as you work
@@ -65,4 +75,3 @@ Reminders:
 
 - Multiple tasks can be active simultaneously
 - Starting a task does NOT block other tasks from being started
-- Check `learnings/index.md` for relevant past learnings before beginning work

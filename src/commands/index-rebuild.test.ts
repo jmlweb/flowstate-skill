@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { mkdtemp, rm, readFile } from "node:fs/promises";
+import { mkdtemp, rm, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { indexRebuild } from "./index-rebuild.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
+import { learningCreate } from "./learning-create.js";
 import { init } from "./init.js";
 
 let tmp: string;
@@ -44,5 +45,25 @@ describe("indexRebuild", () => {
     );
     expect(index).toContain("| Pending | 0 |");
     expect(index).toContain("| Active | 0 |");
+  });
+
+  it("preserves content after learnings table on rebuild", async () => {
+    await learningCreate(tmp, {
+      title: "Test insight",
+      tags: ["testing"],
+      body: "Content",
+    });
+
+    // Append content after the table
+    const indexPath = join(tmp, ".backlog", "learnings", "index.md");
+    const original = await readFile(indexPath, "utf-8");
+    const withTrailing = original + "\n> Consult a learning's full document for details.\n";
+    await writeFile(indexPath, withTrailing, "utf-8");
+
+    await indexRebuild(tmp, "learnings");
+
+    const rebuilt = await readFile(indexPath, "utf-8");
+    expect(rebuilt).toContain("| LRN-001 | Test insight |");
+    expect(rebuilt).toContain("> Consult a learning's full document for details.");
   });
 });

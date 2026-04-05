@@ -28,15 +28,25 @@ If `$ARGUMENTS` provided, use it as the starting point. Otherwise ask:
 2. **Why is this needed?**
 3. **Any constraints?** (deadlines, compatibility, etc.)
 
-### 2. Explore the Codebase
+### 2. Load Context
+
+Before exploring code, gather backlog context:
+
+1. **Learnings**: Read `.backlog/learnings/index.md`. Filter entries by keyword match against the feature description. Read the full content of matching learnings (up to 3 most relevant). These may reveal past decisions, gotchas, or proven patterns that should inform the plan.
+2. **Active tasks**: Read `.backlog/tasks/active/` — the plan should account for work already in progress to avoid conflicts or duplication.
+3. **Pending reports**: Scan `.backlog/reports/pending/` for related bugs or findings that the plan should address or acknowledge.
+
+If no matches found, skip silently.
+
+### 3. Explore the Codebase
 
 Based on the description:
 - Search for relevant files that would need changes
 - Understand existing patterns and architecture
 - Identify dependencies and potential conflicts
-- Check `.backlog/learnings/index.md` for related past insights
+- Incorporate insights from learnings found in Step 2
 
-### 3. Generate Plan via CLI
+### 4. Generate Plan via CLI
 
 ```bash
 FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
@@ -52,7 +62,7 @@ The CLI handles ID assignment, file creation, and placement in `plans/pending/`.
 - **medium**: Multiple files, some decisions needed
 - **high**: Architectural change, many files, unknowns
 
-### 4. Confirm
+### 5. Confirm
 
 ```
 Created PLN-{{ID}}: {{TITLE}}

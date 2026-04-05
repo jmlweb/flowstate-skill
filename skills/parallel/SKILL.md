@@ -2,7 +2,7 @@
 name: parallel
 description: Execute multiple independent backlog tasks simultaneously using subagents with worktree isolation. Use when the user says "run tasks in parallel", "do these at the same time", or when multiple non-overlapping tasks can be worked on concurrently. Detects file overlaps, moves tasks to active, launches isolated subagents, and collects results. Maximizes throughput for independent work.
 argument-hint: [task IDs separated by comma]
-allowed-tools: [Read, Write, Bash, Glob, Grep]
+allowed-tools: [Read, Write, Bash, Glob, Grep, Agent]
 model: sonnet
 ---
 
@@ -58,7 +58,13 @@ $FLOWSTATE_CLI task-move {{ID}} --to active
 
 The CLI handles frontmatter updates, file moves, and index updates.
 
-### 5. Launch Subagents
+### 5. Load Context for Subagents
+
+Before launching, read `.backlog/learnings/index.md` once. For each selected task, filter learnings whose tags overlap with the task's tags or whose title matches the task description. Read the full content of matching learnings (up to 3 per task).
+
+Also scan `.backlog/reports/pending/` for any reports related to each task's scope.
+
+### 6. Launch Subagents
 
 Use the Agent tool to launch ALL subagents in a **single message** for true parallel execution.
 
@@ -75,16 +81,23 @@ Complete Task TSK-{{ID}}: {{TITLE}}
 ## Acceptance Criteria
 {{CRITERIA}}
 
+## Relevant Learnings              ← only if matches found
+- LRN-XXX: {{TITLE}}
+  {{INSIGHT_SUMMARY}}
+
+## Known Issues                    ← only if related reports found
+- RPT-XXX: {{TITLE}} ({{SEVERITY}})
+
 ## Instructions
 1. Read project documentation (README, CLAUDE.md, etc.) first
-2. Check .backlog/learnings/index.md for relevant past learnings
+2. Apply the learnings above — they capture past mistakes and proven patterns
 3. Read existing files before modifying
 4. Implement each acceptance criterion
 5. Verify changes work (build, lint, test as applicable)
 6. Create a commit referencing TSK-{{ID}}
 ```
 
-### 6. Collect Results
+### 7. Collect Results
 
 ```
 ## Parallel Execution Complete

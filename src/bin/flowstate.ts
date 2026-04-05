@@ -14,15 +14,18 @@ import { planMove } from "../commands/plan-move.js";
 import { reportCreate } from "../commands/report-create.js";
 import { reportMove } from "../commands/report-move.js";
 import { learningCreate } from "../commands/learning-create.js";
-import type { EntityType, Priority, Complexity, ReportType, Severity, TaskStatus } from "../core/types.js";
+import type { EntityType, TaskStatus } from "../core/types.js";
+import { validatePriority, validateComplexity, validateReportType, validateSeverity } from "../core/types.js";
 
 const cwd = process.cwd();
 
 function parseArgs(args: readonly string[]): {
   flags: Record<string, string>;
+  flagArrays: Record<string, string[]>;
   positional: string[];
 } {
   const flags: Record<string, string> = {};
+  const flagArrays: Record<string, string[]> = {};
   const positional: string[] = [];
 
   for (let i = 0; i < args.length; i++) {
@@ -32,16 +35,18 @@ function parseArgs(args: readonly string[]): {
       const next = args[i + 1];
       if (next && !next.startsWith("--")) {
         flags[key] = next;
+        (flagArrays[key] ??= []).push(next);
         i++;
       } else {
         flags[key] = "true";
+        (flagArrays[key] ??= []).push("true");
       }
     } else {
       positional.push(arg);
     }
   }
 
-  return { flags, positional };
+  return { flags, flagArrays, positional };
 }
 
 function required(flags: Record<string, string>, key: string): string {
@@ -77,7 +82,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const { flags, positional } = parseArgs(rest);
+  const { flags, flagArrays, positional } = parseArgs(rest);
   const json = flags["json"] === "true";
 
   try {
@@ -104,7 +109,7 @@ async function main(): Promise<void> {
         const body = await getBody(flags);
         const result = await taskCreate(cwd, {
           title: required(flags, "title"),
-          priority: required(flags, "priority") as Priority,
+          priority: validatePriority(required(flags, "priority")),
           tags: flags["tags"] ? flags["tags"].split(",").map((t) => t.trim()) : [],
           description: body || flags["description"] || "",
           criteria: flags["criteria"] ? JSON.parse(flags["criteria"]) as string[] : [],
@@ -143,13 +148,11 @@ async function main(): Promise<void> {
           process.exit(1);
         }
         const updates: Record<string, string> = {};
-        const sets = flags["set"];
-        if (sets) {
-          for (const pair of sets.split(",")) {
-            const eqIdx = pair.indexOf("=");
-            if (eqIdx !== -1) {
-              updates[pair.slice(0, eqIdx).trim()] = pair.slice(eqIdx + 1).trim();
-            }
+        const sets = flagArrays["set"] ?? [];
+        for (const pair of sets) {
+          const eqIdx = pair.indexOf("=");
+          if (eqIdx !== -1) {
+            updates[pair.slice(0, eqIdx).trim()] = pair.slice(eqIdx + 1).trim();
           }
         }
         const result = await taskUpdate(cwd, id, updates, flags["log"]);
@@ -185,7 +188,7 @@ async function main(): Promise<void> {
         const body = await getBody(flags);
         const result = await planCreate(cwd, {
           title: required(flags, "title"),
-          complexity: required(flags, "complexity") as Complexity,
+          complexity: validateComplexity(required(flags, "complexity")),
           body,
         });
         output(result, json);
@@ -212,8 +215,8 @@ async function main(): Promise<void> {
         const body = await getBody(flags);
         const result = await reportCreate(cwd, {
           title: required(flags, "title"),
-          type: required(flags, "type") as ReportType,
-          severity: required(flags, "severity") as Severity,
+          type: validateReportType(required(flags, "type")),
+          severity: validateSeverity(required(flags, "severity")),
           body,
         });
         output(result, json);

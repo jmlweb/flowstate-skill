@@ -73,6 +73,31 @@ export type Frontmatter =
   | ReportFrontmatter
   | LearningFrontmatter;
 
+const PRIORITIES = new Set<string>(["P1", "P2", "P3", "P4"]);
+const COMPLEXITIES = new Set<string>(["low", "medium", "high"]);
+const REPORT_TYPES = new Set<string>(["bug", "finding", "improvement", "security"]);
+const SEVERITIES = new Set<string>(["critical", "high", "medium", "low"]);
+
+export const validatePriority = (v: string): Priority => {
+  if (!PRIORITIES.has(v)) throw new Error(`Invalid priority: "${v}". Expected: P1, P2, P3, P4`);
+  return v as Priority;
+};
+
+export const validateComplexity = (v: string): Complexity => {
+  if (!COMPLEXITIES.has(v)) throw new Error(`Invalid complexity: "${v}". Expected: low, medium, high`);
+  return v as Complexity;
+};
+
+export const validateReportType = (v: string): ReportType => {
+  if (!REPORT_TYPES.has(v)) throw new Error(`Invalid report type: "${v}". Expected: bug, finding, improvement, security`);
+  return v as ReportType;
+};
+
+export const validateSeverity = (v: string): Severity => {
+  if (!SEVERITIES.has(v)) throw new Error(`Invalid severity: "${v}". Expected: critical, high, medium, low`);
+  return v as Severity;
+};
+
 export interface ParsedDocument<T = Record<string, unknown>> {
   readonly frontmatter: T;
   readonly body: string;

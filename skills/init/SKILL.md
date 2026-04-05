@@ -10,12 +10,6 @@ model: haiku
 
 Set up the `.backlog/` directory structure in the current project.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 Project name (optional): $ARGUMENTS

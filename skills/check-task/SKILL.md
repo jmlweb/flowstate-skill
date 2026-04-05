@@ -10,12 +10,6 @@ model: sonnet
 
 Verify that a task's declared status accurately reflects the actual implementation.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`. Without argument, runs batch mode on all pending and active tasks.

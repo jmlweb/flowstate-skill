@@ -7,6 +7,8 @@ tags: [docs, distribution]
 created: 2026-04-05
 source: manual
 depends-on: []
+started: 2026-04-05
+completed: 2026-04-05
 ---
 
 # Update README with marketplace installation
@@ -34,3 +36,5 @@ Keep the manual clone method as alternative. Add team setup with extraKnownMarke
 ## Progress Log
 
 - [2026-04-05] Created
+- [2026-04-05] Started working on README update
+- [2026-04-05] README updated with specific marketplace commands and team setup with extraKnownMarketplaces

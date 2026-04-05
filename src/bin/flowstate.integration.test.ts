@@ -34,7 +34,7 @@ describe("CLI integration", () => {
   it("init creates .backlog structure", () => {
     run("init", "--project-name", "IntTest");
     const result = runJson("stats") as Record<string, number>;
-    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0 });
+    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("full task lifecycle: create -> start -> complete", () => {
@@ -56,13 +56,13 @@ describe("CLI integration", () => {
 
     // Check stats
     const afterStart = runJson("stats") as Record<string, number>;
-    expect(afterStart).toEqual({ pending: 0, active: 1, blocked: 0, complete: 0 });
+    expect(afterStart).toEqual({ pending: 0, active: 1, blocked: 0, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
 
     // Complete
     run("task-move", "TSK-001", "--to", "complete");
 
     const afterComplete = runJson("stats") as Record<string, number>;
-    expect(afterComplete).toEqual({ pending: 0, active: 0, blocked: 0, complete: 1 });
+    expect(afterComplete).toEqual({ pending: 0, active: 0, blocked: 0, complete: 1, pendingPlans: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("task-list returns items", () => {

@@ -103,6 +103,13 @@ async function rebuildLearningsIndex(cwd) {
         return;
     // Keep everything up to and including separator
     const header = lines.slice(0, separatorIndex + 1);
+    // Find where existing table rows end (first non-pipe line after separator)
+    let tableEnd = separatorIndex + 1;
+    while (tableEnd < lines.length && lines[tableEnd].startsWith("|")) {
+        tableEnd++;
+    }
+    // Preserve any content after the table
+    const trailing = lines.slice(tableEnd);
     const rows = [];
     for (const entry of entries.sort()) {
         const indexFile = join(lDir, entry, "index.md");
@@ -116,6 +123,6 @@ async function rebuildLearningsIndex(cwd) {
             // Skip invalid entries
         }
     }
-    content = [...header, ...rows, ""].join("\n");
+    content = [...header, ...rows, ...trailing].join("\n");
     await writeFile(indexPath, content, "utf-8");
 }

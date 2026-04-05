@@ -51,14 +51,9 @@ export function removeTableRow(content, heading, predicate) {
     const { start, end } = findSection(lines, heading);
     for (let i = start; i < end; i++) {
         const line = lines[i];
-        if (line.startsWith("|") && !line.startsWith("|--") && predicate(line)) {
-            // Skip header row (first pipe row) and separator
-            const isHeader = i === start;
-            const isSeparator = line.startsWith("|--");
-            if (!isHeader && !isSeparator) {
-                lines.splice(i, 1);
-                return lines.join("\n");
-            }
+        if (line.startsWith("|") && !line.startsWith("|--") && predicate(line) && i !== start) {
+            lines.splice(i, 1);
+            return lines.join("\n");
         }
     }
     return content;

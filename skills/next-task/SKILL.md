@@ -9,12 +9,6 @@ model: haiku
 
 Analyze the backlog and recommend the best task to start next.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Prerequisites
 
 Verify `.backlog/` exists.
@@ -40,7 +34,16 @@ For each pending non-blocked task:
 | Tag affinity | Low | Shares tags with recently completed tasks |
 | Age | Low | Older tasks get slight preference |
 
-### 3. Present
+### 3. Load Context for Top Pick
+
+Once the top candidate is identified:
+
+1. **Learnings**: Read `.backlog/learnings/index.md`. Filter by tag overlap with the top pick's tags. Read full content of matches (up to 3). These help the user decide if the task is ready or if past issues should be considered first.
+2. **Pending reports**: Scan `.backlog/reports/pending/` for anything related to the top pick's scope.
+
+If no matches, skip silently.
+
+### 4. Present
 
 ```
 ## Next Task Recommendation
@@ -49,6 +52,9 @@ For each pending non-blocked task:
 **{{TITLE}}** ({{PRIORITY}}, tags: {{TAGS}})
 Why: {{REASONING}}
 
+### Relevant Learnings          ← only if matches found
+- LRN-XXX: {{TITLE}} — {{key insight}}
+
 ### Alternatives
 | ID | Title | Priority | Notes |
 |----|-------|----------|-------|
@@ -56,7 +62,7 @@ Why: {{REASONING}}
 Start TSK-{{ID}}? (yes / no / other number)
 ```
 
-### 4. Handle Response
+### 5. Handle Response
 
 - **yes**: Move the task to active (same as `/flowstate:start-task`)
 - **no**: "OK, use /flowstate:start-task when ready"

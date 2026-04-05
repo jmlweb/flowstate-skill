@@ -3,5 +3,8 @@ export interface BacklogStats {
     readonly active: number;
     readonly blocked: number;
     readonly complete: number;
+    readonly pendingPlans: number;
+    readonly pendingReports: number;
+    readonly learnings: number;
 }
 export declare function stats(cwd: string): Promise<BacklogStats>;

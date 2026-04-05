@@ -26,11 +26,13 @@ This project uses **Flowstate** for backlog management. All data lives in `.back
 
 ## CLI Tool
 
-Flowstate includes a CLI for deterministic CRUD operations. Skills use it via Bash:
+Flowstate includes a CLI for deterministic CRUD operations. All skills use this variable:
 
 ```bash
 FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
+
+Define it once at the start of any Bash block. Sub-skill docs may omit it — use this definition.
 
 All commands support `--json true` for structured output. Use `--body -` to pipe content via stdin.
 
@@ -80,10 +82,21 @@ All commands support `--json true` for structured output. Use `--body -` to pipe
 - Reports: `RPT-XXX`
 - Learnings: `LRN-XXX`
 
+## Context Loading
+
+Skills that involve starting or planning work (`start-task`, `next-task`, `plan`, `parallel`) automatically load relevant backlog context before acting. This includes:
+
+1. **Learnings** — filtered by tag overlap or keyword match with the task/feature being worked on. Past insights, gotchas, and proven patterns are surfaced inline so they inform decisions without the user having to remember to check.
+2. **Active tasks** — listed to show current workload and spot potential overlaps or conflicts.
+3. **Pending reports** — scanned for known bugs or findings related to the current scope.
+
+This context is loaded silently — if nothing relevant is found, the skill proceeds without mentioning the absence. The goal is zero-effort awareness: the backlog informs the work automatically.
+
+For ad-hoc browsing outside a skill workflow, use `/flowstate:learnings` to search and drill down into the full learnings index.
+
 ## Proactive Behavior
 
 - When you discover a bug or issue while working, suggest `/flowstate:report`
 - When you learn something non-obvious, suggest `/flowstate:add-learning`
 - Before starting a complex feature, suggest `/flowstate:plan`
 - When completing work, check if there are active tasks that match and suggest `/flowstate:complete-task`
-- Read `learnings/index.md` before starting work to avoid repeating past mistakes

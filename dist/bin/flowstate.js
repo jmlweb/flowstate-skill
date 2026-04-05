@@ -13,9 +13,11 @@ import { planMove } from "../commands/plan-move.js";
 import { reportCreate } from "../commands/report-create.js";
 import { reportMove } from "../commands/report-move.js";
 import { learningCreate } from "../commands/learning-create.js";
+import { validatePriority, validateComplexity, validateReportType, validateSeverity } from "../core/types.js";
 const cwd = process.cwd();
 function parseArgs(args) {
     const flags = {};
+    const flagArrays = {};
     const positional = [];
     for (let i = 0; i < args.length; i++) {
         const arg = args[i];
@@ -24,17 +26,19 @@ function parseArgs(args) {
             const next = args[i + 1];
             if (next && !next.startsWith("--")) {
                 flags[key] = next;
+                (flagArrays[key] ??= []).push(next);
                 i++;
             }
             else {
                 flags[key] = "true";
+                (flagArrays[key] ??= []).push("true");
             }
         }
         else {
             positional.push(arg);
         }
     }
-    return { flags, positional };
+    return { flags, flagArrays, positional };
 }
 function required(flags, key) {
     const val = flags[key];
@@ -63,7 +67,7 @@ async function main() {
         console.error("Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create");
         process.exit(1);
     }
-    const { flags, positional } = parseArgs(rest);
+    const { flags, flagArrays, positional } = parseArgs(rest);
     const json = flags["json"] === "true";
     try {
         switch (command) {
@@ -87,7 +91,7 @@ async function main() {
                 const body = await getBody(flags);
                 const result = await taskCreate(cwd, {
                     title: required(flags, "title"),
-                    priority: required(flags, "priority"),
+                    priority: validatePriority(required(flags, "priority")),
                     tags: flags["tags"] ? flags["tags"].split(",").map((t) => t.trim()) : [],
                     description: body || flags["description"] || "",
                     criteria: flags["criteria"] ? JSON.parse(flags["criteria"]) : [],
@@ -123,13 +127,11 @@ async function main() {
                     process.exit(1);
                 }
                 const updates = {};
-                const sets = flags["set"];
-                if (sets) {
-                    for (const pair of sets.split(",")) {
-                        const eqIdx = pair.indexOf("=");
-                        if (eqIdx !== -1) {
-                            updates[pair.slice(0, eqIdx).trim()] = pair.slice(eqIdx + 1).trim();
-                        }
+                const sets = flagArrays["set"] ?? [];
+                for (const pair of sets) {
+                    const eqIdx = pair.indexOf("=");
+                    if (eqIdx !== -1) {
+                        updates[pair.slice(0, eqIdx).trim()] = pair.slice(eqIdx + 1).trim();
                     }
                 }
                 const result = await taskUpdate(cwd, id, updates, flags["log"]);
@@ -161,7 +163,7 @@ async function main() {
                 const body = await getBody(flags);
                 const result = await planCreate(cwd, {
                     title: required(flags, "title"),
-                    complexity: required(flags, "complexity"),
+                    complexity: validateComplexity(required(flags, "complexity")),
                     body,
                 });
                 output(result, json);
@@ -181,8 +183,8 @@ async function main() {
                 const body = await getBody(flags);
                 const result = await reportCreate(cwd, {
                     title: required(flags, "title"),
-                    type: required(flags, "type"),
-                    severity: required(flags, "severity"),
+                    type: validateReportType(required(flags, "type")),
+                    severity: validateSeverity(required(flags, "severity")),
                     body,
                 });
                 output(result, json);

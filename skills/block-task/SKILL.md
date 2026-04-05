@@ -10,12 +10,6 @@ model: haiku
 
 Mark a task as blocked, document the reason, and suggest alternatives.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 $ARGUMENTS — First word is the task ID, rest is the block reason. Both optional.

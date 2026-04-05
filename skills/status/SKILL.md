@@ -10,12 +10,6 @@ model: haiku
 
 Display the current state of the backlog with stats, active work, and health warnings.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 $ARGUMENTS — ignored; this command takes no arguments.
@@ -87,13 +81,15 @@ NOTE: {{N}} high-priority tasks — consider reprioritizing
 
 **Index drift** (counts don't match disk): Offer to rewrite `tasks/index.md`.
 
-### 4. Rebuild Index
+### 4. Rebuild Index (only if drift detected)
 
-After displaying, rebuild indexes to fix any drift:
+If the stats from the CLI don't match what's in `tasks/index.md`, rebuild:
 
 ```bash
 $FLOWSTATE_CLI index-rebuild
 ```
+
+Skip this step if counts match — avoids unnecessary file reads.
 
 ### 5. Quick Actions
 

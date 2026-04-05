@@ -10,12 +10,6 @@ model: sonnet
 
 Interactively groom a new task and add it to the backlog.
 
-## CLI Usage
-
-```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-```
-
 ## Arguments
 
 Task description (optional): $ARGUMENTS

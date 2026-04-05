@@ -1,12 +1,14 @@
 ---
 id: TSK-003
 title: Add prepare/prepublishonly scripts to package.json
-status: pending
+status: complete
 priority: P3
 tags: [build, distribution]
 created: 2026-04-05
 source: manual
 depends-on: []
+started: 2026-04-05
+completed: 2026-04-05
 ---
 
 # Add prepare/prepublishonly scripts to package.json
@@ -33,3 +35,5 @@ Also add prepublishonly for future npm publishing.
 ## Progress Log
 
 - [2026-04-05] Created
+- [2026-04-05] Started
+- [2026-04-05] Completed

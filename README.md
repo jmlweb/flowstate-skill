@@ -18,15 +18,30 @@ Flowstate adds a structured, file-based backlog to any project. Everything lives
 
 ## Installation
 
-### From a marketplace
+### From the marketplace (recommended)
 
-If Flowstate is available in a marketplace you've added, install it directly from Claude Code:
+Add the jmlweb marketplace and install Flowstate:
 
+```bash
+claude plugin marketplace add jmlweb/claude-plugins
+claude plugin install flowstate@jmlweb
 ```
-/plugin install flowstate@<marketplace-name>
+
+### Team setup
+
+To share the marketplace with your team, add it to your project's `.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": ["jmlweb/claude-plugins"]
+}
 ```
 
-Then run `/reload-plugins` to activate it.
+Then each team member only needs:
+
+```bash
+claude plugin install flowstate@jmlweb
+```
 
 ### Manual installation
 
