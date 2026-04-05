@@ -10,6 +10,12 @@ model: haiku
 
 Set up the `.backlog/` directory structure in the current project.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 Project name (optional): $ARGUMENTS
@@ -25,60 +31,15 @@ Project name (optional): $ARGUMENTS
 
 If `$ARGUMENTS` is provided, use it as the project name. Otherwise, infer from the current directory name or ask the user.
 
-### 3. Create Directory Structure
+### 3. Create Backlog Structure
 
 ```bash
-mkdir -p .backlog/plans/{pending,complete}
-mkdir -p .backlog/reports/{pending,complete}
-mkdir -p .backlog/tasks/{pending,active,complete}
-mkdir -p .backlog/learnings
+$FLOWSTATE_CLI init --project-name "{{PROJECT_NAME}}"
 ```
 
-### 4. Create Index Files (only if they don't exist)
+This creates the full directory structure, index files, and templates in one step.
 
-**`.backlog/tasks/index.md`:**
-
-```markdown
-# {{PROJECT_NAME}} - Task Index
-
-## Stats
-
-| Status | Count |
-|--------|-------|
-| Pending | 0 |
-| Active | 0 |
-| Blocked | 0 |
-| Complete | 0 |
-
-## Active Tasks
-
-_No active tasks._
-
-## Pending Tasks
-
-| ID | Title | Priority | Tags | Created |
-|----|-------|----------|------|---------|
-
-## Recently Completed
-
-| ID | Title | Completed |
-|----|-------|-----------|
-```
-
-**`.backlog/learnings/index.md`:**
-
-```markdown
-# {{PROJECT_NAME}} - Learnings Index
-
-> Consult a learning's full document before starting related work.
-
-| ID | Title | Tags | Date |
-|----|-------|------|------|
-```
-
-Replace `{{PROJECT_NAME}}` with the actual project name.
-
-### 5. Confirm
+### 4. Confirm
 
 Report what was created:
 

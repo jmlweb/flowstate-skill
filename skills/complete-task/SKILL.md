@@ -10,6 +10,12 @@ model: haiku
 
 Mark a task as completed, move it to the complete directory, and handle learnings.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.
@@ -47,29 +53,15 @@ Options:
 
 Check the task's **Learnings** section. If it contains entries, offer to create full learning entries via `/flowstate:add-learning`.
 
-### 4. Update Task Frontmatter
-
-Change `status: active` to `status: complete` and add `completed: {{TODAY}}` after the `started:` line.
-
-### 5. Add Final Progress Log Entry
-
-```markdown
-- [{{TODAY}}] Completed
-```
-
-### 6. Move Task File
+### 4. Complete Task via CLI
 
 ```bash
-mv .backlog/tasks/active/TSK-XXX-*.md .backlog/tasks/complete/
+$FLOWSTATE_CLI task-move {{ID}} --to complete
 ```
 
-### 7. Update tasks/index.md
+The CLI updates frontmatter (`status: complete`, `completed: today`), adds a progress log entry, moves the file to `tasks/complete/`, and updates `tasks/index.md` automatically.
 
-- Remove from **Active Tasks**
-- Add to **Recently Completed** (keep last 10)
-- Update Stats counts
-
-### 8. Suggest Next Task
+### 5. Suggest Next Task
 
 ```
 Completed TSK-{{ID}}: {{TITLE}}

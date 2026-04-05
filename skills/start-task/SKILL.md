@@ -10,6 +10,12 @@ model: haiku
 
 Mark a task as in-progress and move it to the active directory.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.
@@ -32,29 +38,15 @@ If no argument, list all pending non-blocked tasks and ask which to start.
 - Task must NOT have `status: blocked` in frontmatter
 - If blocked, show the reason and suggest resolving it first
 
-### 3. Move Task File
+### 3. Move Task to Active
 
 ```bash
-mv .backlog/tasks/pending/TSK-XXX-*.md .backlog/tasks/active/
+$FLOWSTATE_CLI task-move {{ID}} --to active
 ```
 
-### 4. Update Task Frontmatter
+The CLI moves the file, updates frontmatter (`status: active`, `started: today`), adds a progress log entry, and updates `tasks/index.md` automatically.
 
-Change `status: pending` to `status: active` and add `started: {{TODAY}}` after the `created:` line.
-
-### 5. Add Progress Log Entry
-
-Append to the Progress Log section:
-
-```markdown
-- [{{TODAY}}] Started
-```
-
-### 6. Update tasks/index.md
-
-Move the task row from **Pending Tasks** to **Active Tasks** and update Stats counts.
-
-### 7. Show Task Summary
+### 4. Show Task Summary
 
 ```
 Started TSK-{{ID}}: {{TITLE}}

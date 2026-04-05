@@ -52,20 +52,20 @@ If `$ARGUMENTS` provided, infer the type. Otherwise ask:
 | medium | Partially broken, workaround exists |
 | low | Minor issue, cosmetic, edge case |
 
-### 4. Determine Next ID
+### 4. Generate Report via CLI
 
 ```bash
-next_id=$(ls .backlog/reports/{pending,complete}/ 2>/dev/null | grep -oP 'RPT-\K\d+' | sort -n | tail -1)
-next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+cat <<'BODY' | $FLOWSTATE_CLI report-create --title "{{TITLE}}" --type {{TYPE}} --severity {{SEVERITY}} --body -
+{{REPORT_CONTENT}}
+BODY
 ```
 
-### 5. Generate Report File
-
-Create `.backlog/reports/pending/RPT-{{ID}}-{{slug}}.md` following the template in `references/templates.md`.
+The CLI handles ID assignment, file creation, and placement in `reports/pending/`.
 
 Omit sections that don't apply (e.g., no "Steps to Reproduce" for findings).
 
-### 6. Confirm
+### 5. Confirm
 
 ```
 Filed RPT-{{ID}}: {{TITLE}}

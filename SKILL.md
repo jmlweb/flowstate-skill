@@ -24,11 +24,40 @@ This project uses **Flowstate** for backlog management. All data lives in `.back
 └── learnings/LRN-XXX-*/   # Individual learning directories
 ```
 
-## Available Commands
+## CLI Tool
+
+Flowstate includes a CLI for deterministic CRUD operations. Skills use it via Bash:
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
+All commands support `--json true` for structured output. Use `--body -` to pipe content via stdin.
+
+### CLI Commands
 
 | Command | Description |
 |---------|-------------|
-| `/flowstate:init` | Initialize `.backlog/` in the current project |
+| `$FLOWSTATE_CLI init --project-name <name>` | Create .backlog/ structure |
+| `$FLOWSTATE_CLI task-create --title <t> --priority <P> --tags <csv> --body -` | Create task |
+| `$FLOWSTATE_CLI task-move <id> --to <active\|complete\|pending>` | Move task between states |
+| `$FLOWSTATE_CLI task-update <id> --set <key=value> --log <msg>` | Update task fields |
+| `$FLOWSTATE_CLI task-unblock <id> --resolution <text>` | Unblock a task |
+| `$FLOWSTATE_CLI task-list [--status <s>] [--json true]` | List tasks |
+| `$FLOWSTATE_CLI stats [--json true]` | Get backlog stats |
+| `$FLOWSTATE_CLI index-rebuild [--type <tasks\|learnings\|all>]` | Rebuild indexes |
+| `$FLOWSTATE_CLI plan-create --title <t> --complexity <c> --body -` | Create plan |
+| `$FLOWSTATE_CLI plan-move <id> --status <approved\|discarded> [--task-id <TSK-XXX>]` | Move plan |
+| `$FLOWSTATE_CLI report-create --title <t> --type <t> --severity <s> --body -` | Create report |
+| `$FLOWSTATE_CLI report-move <id> --status <triaged\|discarded> [--task-id <TSK-XXX>]` | Move report |
+| `$FLOWSTATE_CLI learning-create --title <t> --tags <csv> --body - [--task <TSK-XXX>]` | Create learning |
+| `$FLOWSTATE_CLI next-id <task\|plan\|report\|learning>` | Get next sequential ID |
+
+## Available Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/flowstate:init` | Initialize `.backlog/` in the current project (uses CLI) |
 | `/flowstate:status` | Show backlog overview and health |
 | `/flowstate:add-task` | Add a new task to the backlog |
 | `/flowstate:start-task` | Start working on a task |

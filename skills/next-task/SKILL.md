@@ -9,6 +9,12 @@ model: haiku
 
 Analyze the backlog and recommend the best task to start next.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Prerequisites
 
 Verify `.backlog/` exists.
@@ -17,10 +23,10 @@ Verify `.backlog/` exists.
 
 ### 1. Read State
 
-- Read `.backlog/tasks/index.md`
-- List files in `tasks/active/` (what's already in progress)
-- List files in `tasks/pending/` (candidates)
-- Read each pending task's frontmatter for priority, tags, status, depends-on
+```bash
+$FLOWSTATE_CLI task-list --status pending --json true
+$FLOWSTATE_CLI task-list --status active --json true
+```
 
 ### 2. Score Candidates
 

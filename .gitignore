@@ -10,3 +10,9 @@ Thumbs.db
 
 # Claude Code local settings (keep plugin config, ignore local overrides)
 .claude/settings.local.json
+
+# Node
+node_modules/
+
+# Build (dist/ is committed for plugin distribution)
+# dist/

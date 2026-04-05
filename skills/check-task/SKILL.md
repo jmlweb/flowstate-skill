@@ -10,6 +10,12 @@ model: sonnet
 
 Verify that a task's declared status accurately reflects the actual implementation.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`. Without argument, runs batch mode on all pending and active tasks.
@@ -25,6 +31,12 @@ Verify `.backlog/` exists.
 If `$ARGUMENTS` provided, find the task in `tasks/pending/`, `tasks/active/`, or `tasks/complete/`.
 
 If no argument, run batch mode on all pending + active tasks.
+
+Fetch task data:
+
+```bash
+$FLOWSTATE_CLI task-list --json true
+```
 
 ### 2. Read Task File
 

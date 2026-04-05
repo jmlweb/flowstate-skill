@@ -47,28 +47,33 @@ Type: {{TYPE}} | Severity: {{SEVERITY}} | Created: {{DATE}}
 
 ### 4a. Convert to Task
 
-1. Create task:
-   - Title: prefix with "Fix: " for bugs
-   - Acceptance criteria from the report (e.g., "Bug no longer reproduces")
-   - Priority: suggest from severity (critical→P1, high→P2, medium→P3, low→P4)
-   - `source: report/RPT-{{ID}}`
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
 
-2. Update report: `status: triaged`, add `triaged: {{TODAY}}`, `task-id: TSK-{{NEW_ID}}`
+# Create task from report
+$FLOWSTATE_CLI task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA}}' --body -
 
-3. Move report to `reports/complete/`
+# Move report to complete
+$FLOWSTATE_CLI report-move RPT-{{ID}} --status triaged --task-id TSK-{{NEW_ID}}
+```
 
-4. Update `tasks/index.md`
+The CLI handles frontmatter updates, file moves, and index updates.
 
-5. Confirm:
-   ```
-   RPT-{{ID}} triaged → TSK-{{NEW_ID}}: {{TITLE}}
-   /flowstate:start-task TSK-{{NEW_ID}} to begin
-   ```
+- Priority: suggest from severity (critical->P1, high->P2, medium->P3, low->P4)
+- Acceptance criteria: derive from the report (e.g., "Bug no longer reproduces")
+
+Confirm:
+```
+RPT-{{ID}} triaged → TSK-{{NEW_ID}}: {{TITLE}}
+/flowstate:start-task TSK-{{NEW_ID}} to begin
+```
 
 ### 4b. Discard
 
-1. Update report: `status: discarded`, add `triaged: {{TODAY}}`
-2. Move to `reports/complete/`
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+$FLOWSTATE_CLI report-move RPT-{{ID}} --status discarded
+```
 
 ### 4c. Needs More Info
 

@@ -10,6 +10,12 @@ model: sonnet
 
 Interactively groom a new task and add it to the backlog.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 Task description (optional): $ARGUMENTS
@@ -24,14 +30,7 @@ Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init` first.
 
 Read `.backlog/tasks/index.md` to understand the current backlog.
 
-### 2. Determine Next ID
-
-```bash
-next_id=$(ls .backlog/tasks/{pending,active,complete}/ 2>/dev/null | grep -oP 'TSK-\K\d+' | sort -n | tail -1)
-next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
-```
-
-### 3. Gather Task Information
+### 2. Gather Task Information
 
 If `$ARGUMENTS` is provided, use it as the title. Otherwise ask.
 
@@ -52,19 +51,24 @@ Collect interactively:
 5. **Tags** — Freeform labels (e.g., `backend`, `auth`, `ui`, `performance`). Suggest based on description
 6. **Dependencies** — Show pending tasks and ask if this depends on any
 
-### 4. Generate Task File
+### 3. Create Task via CLI
 
-Create `.backlog/tasks/pending/TSK-{{ID}}-{{slug}}.md` following the template in `references/templates.md`.
+Pipe the description via stdin:
 
-Set `source: manual` in frontmatter.
+```bash
+echo "{{DESCRIPTION}}" | $FLOWSTATE_CLI task-create \
+  --title "{{TITLE}}" \
+  --priority {{PRIORITY}} \
+  --tags "{{TAGS}}" \
+  --criteria '{{CRITERIA_JSON}}' \
+  --source manual \
+  --depends-on "{{DEPS}}" \
+  --body -
+```
 
-**Slug**: lowercase, hyphen-separated, max 5 words from the title.
+The CLI assigns the next ID, creates the task file, and updates `tasks/index.md` automatically.
 
-### 5. Update tasks/index.md
-
-Add a row to the **Pending Tasks** table and increment the Pending count in Stats.
-
-### 6. Confirm
+### 4. Confirm
 
 ```
 Created TSK-{{ID}}: {{TITLE}}

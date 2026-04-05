@@ -24,6 +24,9 @@ Flowstate adds a structured, file-based backlog to any project. Everything lives
 # Clone the repo
 git clone https://github.com/jmlweb/flowstate-skill.git ~/.claude/plugins/flowstate
 
+# Install dependencies and build the CLI
+cd ~/.claude/plugins/flowstate && pnpm install && pnpm build
+
 # Or add it as a submodule in your project
 git submodule add https://github.com/jmlweb/flowstate-skill.git .claude/plugins/flowstate
 ```

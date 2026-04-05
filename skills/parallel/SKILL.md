@@ -49,11 +49,14 @@ Which tasks? (comma-separated)
 
 ### 4. Start All Selected Tasks
 
-For each selected task:
-1. Move to `tasks/active/` if in pending
-2. Update frontmatter: `status: active`, `started: {{TODAY}}`
-3. Add progress log: `[{{TODAY}}] Started (parallel execution)`
-4. Update `tasks/index.md`
+For each selected task, activate it via CLI:
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+$FLOWSTATE_CLI task-move {{ID}} --to active
+```
+
+The CLI handles frontmatter updates, file moves, and index updates.
 
 ### 5. Launch Subagents
 

@@ -36,23 +36,23 @@ Based on the description:
 - Identify dependencies and potential conflicts
 - Check `.backlog/learnings/index.md` for related past insights
 
-### 3. Determine Next ID
+### 3. Generate Plan via CLI
 
 ```bash
-next_id=$(ls .backlog/plans/{pending,complete}/ 2>/dev/null | grep -oP 'PLN-\K\d+' | sort -n | tail -1)
-next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+cat <<'BODY' | $FLOWSTATE_CLI plan-create --title "{{TITLE}}" --complexity {{COMPLEXITY}} --body -
+{{PLAN_CONTENT}}
+BODY
 ```
 
-### 4. Generate Plan File
-
-Create `.backlog/plans/pending/PLN-{{ID}}-{{slug}}.md` following the template in `references/templates.md`.
+The CLI handles ID assignment, file creation, and placement in `plans/pending/`.
 
 **Complexity guidelines:**
 - **low**: Single file or small change, clear path
 - **medium**: Multiple files, some decisions needed
 - **high**: Architectural change, many files, unknowns
 
-### 5. Confirm
+### 4. Confirm
 
 ```
 Created PLN-{{ID}}: {{TITLE}}

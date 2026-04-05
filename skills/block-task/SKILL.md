@@ -10,6 +10,12 @@ model: haiku
 
 Mark a task as blocked, document the reason, and suggest alternatives.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 $ARGUMENTS — First word is the task ID, rest is the block reason. Both optional.
@@ -36,27 +42,19 @@ Suggest common categories:
 - **Technical**: "Discovered a technical limitation"
 - **Clarification**: "Requirements are unclear, need user input"
 
-### 3. Update Task Frontmatter
+### 3. Block Task via CLI
 
-Change `status:` to `status: blocked` and add `blocked-by: {{REASON}}`.
-
-The task file **stays in its current directory** (pending or active). Only frontmatter changes.
-
-### 4. Add Progress Log Entry
-
-```markdown
-- [{{TODAY}}] Blocked: {{REASON}}
+```bash
+$FLOWSTATE_CLI task-update {{ID}} --set "status=blocked,blocked-by={{REASON}}" --log "Blocked: {{REASON}}"
 ```
 
-### 5. Update tasks/index.md
+The CLI updates the frontmatter, adds a progress log entry, and updates `tasks/index.md` automatically. The task file stays in its current directory (pending or active).
 
-Increment Blocked count in Stats. Mark the task with `BLOCKED` in its current table.
-
-### 6. Suggest Alternatives
+### 4. Suggest Alternatives
 
 Show unblocked pending/active tasks as alternatives.
 
-### 7. If Technical Blocker
+### 5. If Technical Blocker
 
 ```
 This appears to be a technical blocker. Would you like to:
@@ -67,4 +65,10 @@ This appears to be a technical blocker. Would you like to:
 
 ## Unblocking
 
-To unblock: change `status` back to `pending` or `active`, remove `blocked-by`, add progress log entry `Unblocked: {{resolution}}`. Then use `/flowstate:start-task` if needed.
+To unblock a task:
+
+```bash
+$FLOWSTATE_CLI task-unblock {{ID}} --resolution "{{TEXT}}"
+```
+
+Then use `/flowstate:start-task` if needed.

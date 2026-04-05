@@ -10,6 +10,12 @@ model: haiku
 
 Display the current state of the backlog with stats, active work, and health warnings.
 
+## CLI Usage
+
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+```
+
 ## Arguments
 
 $ARGUMENTS — ignored; this command takes no arguments.
@@ -20,19 +26,11 @@ Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init`.
 
 ## Workflow
 
-### 1. Recompute Stats from Disk
-
-Do NOT trust the counts in `tasks/index.md`. Always recompute:
+### 1. Fetch Stats and Task Data
 
 ```bash
-pending=$(ls .backlog/tasks/pending/ 2>/dev/null | grep -c '^TSK-')
-active_all=$(ls .backlog/tasks/active/ 2>/dev/null | grep -c '^TSK-')
-blocked=$(grep -rl '^status: blocked' .backlog/tasks/{pending,active}/ 2>/dev/null | wc -l)
-active=$((active_all - blocked))
-complete=$(ls .backlog/tasks/complete/ 2>/dev/null | grep -c '^TSK-')
-plans_pending=$(ls .backlog/plans/pending/ 2>/dev/null | grep -c '^PLN-')
-reports_pending=$(ls .backlog/reports/pending/ 2>/dev/null | grep -c '^RPT-')
-learnings=$(ls -d .backlog/learnings/LRN-*/ 2>/dev/null | wc -l)
+$FLOWSTATE_CLI stats --json true
+$FLOWSTATE_CLI task-list --json true
 ```
 
 ### 2. Display
@@ -89,7 +87,15 @@ NOTE: {{N}} high-priority tasks — consider reprioritizing
 
 **Index drift** (counts don't match disk): Offer to rewrite `tasks/index.md`.
 
-### 4. Quick Actions
+### 4. Rebuild Index
+
+After displaying, rebuild indexes to fix any drift:
+
+```bash
+$FLOWSTATE_CLI index-rebuild
+```
+
+### 5. Quick Actions
 
 ```
 /flowstate:next-task       — Get a recommendation

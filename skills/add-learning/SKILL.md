@@ -36,38 +36,20 @@ Check `.backlog/tasks/active/` for active tasks:
 - If one or more are active, ask which (if any) this relates to
 - If only one is active, suggest linking to it
 
-### 3. Determine Next ID
+### 3. Create Learning via CLI
 
 ```bash
-next_id=$(ls .backlog/learnings/ 2>/dev/null | grep -oP 'LRN-\K\d+' | sort -n | tail -1)
-next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+cat <<'BODY' | $FLOWSTATE_CLI learning-create --title "{{TITLE}}" --tags "{{TAGS}}" --task {{TSK_ID}} --body -
+{{LEARNING_CONTENT}}
+BODY
 ```
 
-### 4. Create Learning Directory and File
+The CLI handles ID assignment, directory creation, index update, and task linking automatically.
 
-```bash
-mkdir -p .backlog/learnings/LRN-{{ID}}-{{slug}}/
-```
+Omit `--task` if no active task is linked.
 
-Create `.backlog/learnings/LRN-{{ID}}-{{slug}}/index.md` following the template in `references/templates.md`.
-
-### 5. Update Learnings Index
-
-Append a row to `.backlog/learnings/index.md`:
-
-```markdown
-| [LRN-{{ID}}](LRN-{{ID}}-{{slug}}/) | {{TITLE}} | {{TAGS}} | {{TODAY}} |
-```
-
-### 6. Link to Task (if applicable)
-
-If linked to an active task, append to its **Learnings** section:
-
-```markdown
-- LRN-{{ID}}: {{TITLE}} (see [full learning](../learnings/LRN-{{ID}}-{{slug}}/))
-```
-
-### 7. Confirm
+### 4. Confirm
 
 ```
 Added LRN-{{ID}}: {{TITLE}}

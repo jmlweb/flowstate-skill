@@ -55,29 +55,35 @@ Complexity: {{COMPLEXITY}} | Created: {{DATE}}
 
 ### 4a. Approve
 
-1. Create new task following the add-task template:
-   - Title from the plan
-   - Acceptance criteria from the Approach steps
-   - `source: plan/PLN-{{ID}}`
-   - Priority: ask user or suggest based on complexity
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
 
-2. Update plan frontmatter: `status: approved`, add `reviewed: {{TODAY}}`, `task-id: TSK-{{NEW_ID}}`
+# Create task from plan
+$FLOWSTATE_CLI task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA}}' --body -
 
-3. Move plan to `plans/complete/`
+# Move plan to complete
+$FLOWSTATE_CLI plan-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
+```
 
-4. Update `tasks/index.md`
+The CLI handles frontmatter updates, file moves, and index updates.
 
-5. Confirm:
-   ```
-   Plan PLN-{{ID}} approved → TSK-{{NEW_ID}}: {{TITLE}}
-   /flowstate:start-task TSK-{{NEW_ID}} to begin
-   ```
+- Priority: ask user or suggest based on complexity
+- Acceptance criteria: derive from the Approach steps
+
+Confirm:
+```
+Plan PLN-{{ID}} approved → TSK-{{NEW_ID}}: {{TITLE}}
+/flowstate:start-task TSK-{{NEW_ID}} to begin
+```
 
 ### 4b. Discard
 
-1. Update plan: `status: discarded`, add `reviewed: {{TODAY}}`
-2. Move to `plans/complete/`
-3. Confirm
+```bash
+FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+$FLOWSTATE_CLI plan-move PLN-{{ID}} --status discarded
+```
+
+Confirm to the user.
 
 ### 4c. Revise
 
