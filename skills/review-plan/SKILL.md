@@ -1,6 +1,6 @@
 ---
 name: review-plan
-description: Review a pending implementation plan and decide its fate — approve (convert to task), discard, or revise. Use when the user says "review plan", "approve plan", "check the plan", or after generating a plan with /flowstate:plan. Presents the plan summary, approach, risks, and asks for a decision. Approved plans become backlog tasks automatically.
+description: Review a pending plan and decide — approve (convert to task), discard, or revise. Use when the user says "review plan", "approve plan", "check the plan", or after generating a plan with /flowstate:plan.
 argument-hint: [plan ID]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet

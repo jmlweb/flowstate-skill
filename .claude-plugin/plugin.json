@@ -17,5 +17,5 @@
     "reports",
     "learnings"
   ],
-  "commands": "./skills/"
+  "skills": "./skills/"
 }

@@ -1,6 +1,6 @@
 ---
 name: add-learning
-description: Document a learning, insight, or lesson discovered during development. Use when the user says "learned something", "TIL", "note this", "remember this for next time", or when a non-obvious discovery is made while working. Captures context, insight, and application. Links to the active task if applicable. Prevents repeating past mistakes by building a searchable knowledge base.
+description: Document a learning or insight discovered during development. Use when the user says "learned something", "TIL", "note this", "remember this for next time", or when a non-obvious discovery is made while working.
 argument-hint: [learning description]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: haiku

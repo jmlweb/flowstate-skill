@@ -1,6 +1,6 @@
 ---
 name: learnings
-description: Browse and search the learnings index for relevant past insights. Use when the user says "check learnings", "what did we learn about", "search knowledge", or at the start of a work session to review insights before beginning related work. Displays the full index or filters by search term/tag. Drill down into individual learnings for full context.
+description: Browse and search the learnings index for relevant past insights. Use when the user says "check learnings", "what did we learn about", "search knowledge", or at the start of a work session to review insights.
 argument-hint: [search term or tag]
 allowed-tools: [Read, Bash, Glob, Grep]
 model: haiku

@@ -1,6 +1,6 @@
 ---
 name: status
-description: Show a comprehensive backlog overview with stats, active work, and health warnings. Use when the user asks "backlog status", "what's going on", "show tasks", "project overview", or wants to see the state of all tasks, plans, reports, and learnings. Recomputes stats from disk, detects stale active tasks, blocked items, priority imbalances, and index drift.
+description: Show a comprehensive backlog overview with stats, active work, and health warnings. Use when the user asks "backlog status", "what's going on", "show tasks", "project overview", or wants to see the current state of all work.
 argument-hint: [summary]
 allowed-tools: [Read, Bash, Glob, Grep]
 model: haiku
