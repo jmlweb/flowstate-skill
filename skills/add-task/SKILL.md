@@ -13,7 +13,7 @@ Interactively groom a new task and add it to the backlog.
 ## CLI Usage
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 ## Arguments

@@ -13,7 +13,7 @@ Mark a task as completed, move it to the complete directory, and handle learning
 ## CLI Usage
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 ## Arguments

@@ -13,7 +13,7 @@ Mark a task as blocked, document the reason, and suggest alternatives.
 ## CLI Usage
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 ## Arguments

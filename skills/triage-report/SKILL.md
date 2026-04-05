@@ -48,7 +48,7 @@ Type: {{TYPE}} | Severity: {{SEVERITY}} | Created: {{DATE}}
 ### 4a. Convert to Task
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 
 # Create task from report
 $FLOWSTATE_CLI task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA}}' --body -
@@ -71,7 +71,7 @@ RPT-{{ID}} triaged → TSK-{{NEW_ID}}: {{TITLE}}
 ### 4b. Discard
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 $FLOWSTATE_CLI report-move RPT-{{ID}} --status discarded
 ```
 

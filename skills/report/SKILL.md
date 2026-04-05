@@ -55,7 +55,7 @@ If `$ARGUMENTS` provided, infer the type. Otherwise ask:
 ### 4. Generate Report via CLI
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 cat <<'BODY' | $FLOWSTATE_CLI report-create --title "{{TITLE}}" --type {{TYPE}} --severity {{SEVERITY}} --body -
 {{REPORT_CONTENT}}
 BODY

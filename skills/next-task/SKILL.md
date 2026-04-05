@@ -12,7 +12,7 @@ Analyze the backlog and recommend the best task to start next.
 ## CLI Usage
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 ## Prerequisites

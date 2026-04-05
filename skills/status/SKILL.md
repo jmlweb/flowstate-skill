@@ -13,7 +13,7 @@ Display the current state of the backlog with stats, active work, and health war
 ## CLI Usage
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 ## Arguments

@@ -39,7 +39,7 @@ Check `.backlog/tasks/active/` for active tasks:
 ### 3. Create Learning via CLI
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 cat <<'BODY' | $FLOWSTATE_CLI learning-create --title "{{TITLE}}" --tags "{{TAGS}}" --task {{TSK_ID}} --body -
 {{LEARNING_CONTENT}}
 BODY

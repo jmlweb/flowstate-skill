@@ -56,7 +56,7 @@ Complexity: {{COMPLEXITY}} | Created: {{DATE}}
 ### 4a. Approve
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 
 # Create task from plan
 $FLOWSTATE_CLI task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA}}' --body -
@@ -79,7 +79,7 @@ Plan PLN-{{ID}} approved → TSK-{{NEW_ID}}: {{TITLE}}
 ### 4b. Discard
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 $FLOWSTATE_CLI plan-move PLN-{{ID}} --status discarded
 ```
 

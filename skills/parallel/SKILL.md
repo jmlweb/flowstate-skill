@@ -52,7 +52,7 @@ Which tasks? (comma-separated)
 For each selected task, activate it via CLI:
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 $FLOWSTATE_CLI task-move {{ID}} --to active
 ```
 

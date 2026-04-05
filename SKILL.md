@@ -29,7 +29,7 @@ This project uses **Flowstate** for backlog management. All data lives in `.back
 Flowstate includes a CLI for deterministic CRUD operations. Skills use it via Bash:
 
 ```bash
-FLOWSTATE_CLI="node ~/.claude/plugins/flowstate/dist/bin/flowstate.js"
+FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
 ```
 
 All commands support `--json true` for structured output. Use `--body -` to pipe content via stdin.
