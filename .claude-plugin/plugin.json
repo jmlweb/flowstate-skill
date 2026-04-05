@@ -1,0 +1,12 @@
+{
+  "name": "flowstate",
+  "description": "Generic backlog management system. Manage tasks, plans, reports, and learnings for any project via .backlog/ directory.",
+  "version": "1.0.0",
+  "author": {
+    "name": "jmlweb",
+    "url": "https://github.com/jmlweb"
+  },
+  "repository": "https://github.com/jmlweb/flowstate-skill",
+  "homepage": "https://github.com/jmlweb/flowstate-skill#readme",
+  "license": "MIT"
+}
