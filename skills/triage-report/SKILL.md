@@ -49,7 +49,7 @@ Type: {{TYPE}} | Severity: {{SEVERITY}} | Created: {{DATE}}
 
 ```bash
 # Create task from report
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA}}' --body -
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA_JSON}}' --body -
 
 # Move report to complete
 node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" report-move RPT-{{ID}} --status triaged --task-id TSK-{{NEW_ID}}
@@ -58,7 +58,7 @@ node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" report-move RPT-{{ID}} --stat
 The CLI handles frontmatter updates, file moves, and index updates.
 
 - Priority: suggest from severity (critical->P1, high->P2, medium->P3, low->P4)
-- Acceptance criteria: derive from the report (e.g., "Bug no longer reproduces")
+- Acceptance criteria: derive from the report (e.g., "Bug no longer reproduces"). Pass as a JSON array: `--criteria '["criterion 1","criterion 2"]'`
 
 Confirm:
 ```

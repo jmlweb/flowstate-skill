@@ -57,7 +57,7 @@ Complexity: {{COMPLEXITY}} | Created: {{DATE}}
 
 ```bash
 # Create task from plan
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA}}' --body -
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA_JSON}}' --body -
 
 # Move plan to complete
 node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
@@ -66,7 +66,7 @@ node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status
 The CLI handles frontmatter updates, file moves, and index updates.
 
 - Priority: ask user or suggest based on complexity
-- Acceptance criteria: derive from the Approach steps
+- Acceptance criteria: derive from the Approach steps. Pass as a JSON array: `--criteria '["criterion 1","criterion 2"]'`
 
 Confirm:
 ```

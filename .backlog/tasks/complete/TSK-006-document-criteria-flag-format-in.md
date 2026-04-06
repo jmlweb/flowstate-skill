@@ -1,12 +1,14 @@
 ---
 id: TSK-006
 title: Document --criteria flag format in triage-report and review-plan skills
-status: pending
+status: complete
 priority: P3
 tags: []
 created: 2026-04-06
 source: report/email-analyzer-usage
 depends-on: []
+started: 2026-04-06
+completed: 2026-04-06
 ---
 
 # Document --criteria flag format in triage-report and review-plan skills
@@ -29,3 +31,5 @@ The --criteria flag in task-create expects a JSON array but the skill templates 
 ## Progress Log
 
 - [2026-04-06] Created
+- [2026-04-06] Started
+- [2026-04-06] Completed

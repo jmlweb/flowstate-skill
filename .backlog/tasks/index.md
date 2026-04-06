@@ -4,10 +4,10 @@
 
 | Status | Count |
 |--------|-------|
-| Pending | 1 |
+| Pending | 0 |
 | Active | 0 |
 | Blocked | 0 |
-| Complete | 5 |
+| Complete | 6 |
 
 ## Active Tasks
 
@@ -17,7 +17,6 @@ _No active tasks._
 
 | ID | Title | Priority | Tags | Created |
 |----|-------|----------|------|---------|
-| TSK-006 | Document --criteria flag format in triage-report and review-plan skills | P3 |  | 2026-04-06 |
 
 ## Recently Completed
 
@@ -28,3 +27,4 @@ _No active tasks._
 | TSK-003 | Add prepare/prepublishonly scripts to package.json | 2026-04-05 |
 | TSK-004 | Add plugin hooks for proactive flowstate behavior | 2026-04-05 |
 | TSK-005 | Fix FLOWSTATE_CLI variable expansion in zsh shells | 2026-04-06 |
+| TSK-006 | Document --criteria flag format in triage-report and review-plan skills | 2026-04-06 |
