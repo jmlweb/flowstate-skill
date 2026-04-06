@@ -28,7 +28,7 @@ If `$ARGUMENTS` is provided, use it as the project name. Otherwise, infer from t
 ### 3. Create Backlog Structure
 
 ```bash
-$FLOWSTATE_CLI init --project-name "{{PROJECT_NAME}}"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" init --project-name "{{PROJECT_NAME}}"
 ```
 
 This creates the full directory structure, index files, and templates in one step.

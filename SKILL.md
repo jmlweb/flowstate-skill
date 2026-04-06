@@ -26,34 +26,34 @@ This project uses **Flowstate** for backlog management. All data lives in `.back
 
 ## CLI Tool
 
-Flowstate includes a CLI for deterministic CRUD operations. All skills use this variable:
+Flowstate includes a CLI for deterministic CRUD operations. Invoke it directly:
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" <command> [options]
 ```
 
-Define it once at the start of any Bash block. Sub-skill docs may omit it — use this definition.
-
 All commands support `--json true` for structured output. Use `--body -` to pipe content via stdin.
+
+In the table below, `flowstate` is shorthand for `node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"`.
 
 ### CLI Commands
 
 | Command | Description |
 |---------|-------------|
-| `$FLOWSTATE_CLI init --project-name <name>` | Create .backlog/ structure |
-| `$FLOWSTATE_CLI task-create --title <t> --priority <P> --tags <csv> --body -` | Create task |
-| `$FLOWSTATE_CLI task-move <id> --to <active\|complete\|pending>` | Move task between states |
-| `$FLOWSTATE_CLI task-update <id> --set <key=value> --log <msg>` | Update task fields |
-| `$FLOWSTATE_CLI task-unblock <id> --resolution <text>` | Unblock a task |
-| `$FLOWSTATE_CLI task-list [--status <s>] [--json true]` | List tasks |
-| `$FLOWSTATE_CLI stats [--json true]` | Get backlog stats |
-| `$FLOWSTATE_CLI index-rebuild [--type <tasks\|learnings\|all>]` | Rebuild indexes |
-| `$FLOWSTATE_CLI plan-create --title <t> --complexity <c> --body -` | Create plan |
-| `$FLOWSTATE_CLI plan-move <id> --status <approved\|discarded> [--task-id <TSK-XXX>]` | Move plan |
-| `$FLOWSTATE_CLI report-create --title <t> --type <t> --severity <s> --body -` | Create report |
-| `$FLOWSTATE_CLI report-move <id> --status <triaged\|discarded> [--task-id <TSK-XXX>]` | Move report |
-| `$FLOWSTATE_CLI learning-create --title <t> --tags <csv> --body - [--task <TSK-XXX>]` | Create learning |
-| `$FLOWSTATE_CLI next-id <task\|plan\|report\|learning>` | Get next sequential ID |
+| `flowstate init --project-name <name>` | Create .backlog/ structure |
+| `flowstate task-create --title <t> --priority <P> --tags <csv> --body -` | Create task |
+| `flowstate task-move <id> --to <active\|complete\|pending>` | Move task between states |
+| `flowstate task-update <id> --set <key=value> --log <msg>` | Update task fields |
+| `flowstate task-unblock <id> --resolution <text>` | Unblock a task |
+| `flowstate task-list [--status <s>] [--json true]` | List tasks |
+| `flowstate stats [--json true]` | Get backlog stats |
+| `flowstate index-rebuild [--type <tasks\|learnings\|all>]` | Rebuild indexes |
+| `flowstate plan-create --title <t> --complexity <c> --body -` | Create plan |
+| `flowstate plan-move <id> --status <approved\|discarded> [--task-id <TSK-XXX>]` | Move plan |
+| `flowstate report-create --title <t> --type <t> --severity <s> --body -` | Create report |
+| `flowstate report-move <id> --status <triaged\|discarded> [--task-id <TSK-XXX>]` | Move report |
+| `flowstate learning-create --title <t> --tags <csv> --body - [--task <TSK-XXX>]` | Create learning |
+| `flowstate next-id <task\|plan\|report\|learning>` | Get next sequential ID |
 
 ## Available Slash Commands
 

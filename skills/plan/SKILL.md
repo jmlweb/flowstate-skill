@@ -34,7 +34,7 @@ Before exploring code, gather backlog context:
 
 1. **Learnings**: Search for relevant learnings using the CLI. Pass the feature description as the query:
    ```bash
-   $FLOWSTATE_CLI learning-search --query "{{FEATURE_DESCRIPTION}}" --limit 3 --body true --json true
+   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --query "{{FEATURE_DESCRIPTION}}" --limit 3 --body true --json true
    ```
    The CLI returns only active learnings, scored by keyword relevance. These may reveal past decisions, gotchas, or proven patterns that should inform the plan.
 2. **Active tasks**: Read `.backlog/tasks/active/` — the plan should account for work already in progress to avoid conflicts or duplication.
@@ -53,8 +53,7 @@ Based on the description:
 ### 4. Generate Plan via CLI
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-cat <<'BODY' | $FLOWSTATE_CLI plan-create --title "{{TITLE}}" --complexity {{COMPLEXITY}} --body -
+cat <<'BODY' | node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-create --title "{{TITLE}}" --complexity {{COMPLEXITY}} --body -
 {{PLAN_CONTENT}}
 BODY
 ```

@@ -29,8 +29,7 @@ Read `.backlog/learnings/index.md`.
 Search using the CLI for deterministic, scored results:
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-$FLOWSTATE_CLI learning-search --query "{{SEARCH_TERM}}" --limit 10 --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --query "{{SEARCH_TERM}}" --limit 10 --json true
 ```
 
 Present matches:

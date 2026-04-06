@@ -39,7 +39,7 @@ Suggest common categories:
 ### 3. Block Task via CLI
 
 ```bash
-$FLOWSTATE_CLI task-update {{ID}} --set "status=blocked,blocked-by={{REASON}}" --log "Blocked: {{REASON}}"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-update {{ID}} --set "status=blocked,blocked-by={{REASON}}" --log "Blocked: {{REASON}}"
 ```
 
 The CLI updates the frontmatter, adds a progress log entry, and updates `tasks/index.md` automatically. The task file stays in its current directory (pending or active).
@@ -62,7 +62,7 @@ This appears to be a technical blocker. Would you like to:
 To unblock a task:
 
 ```bash
-$FLOWSTATE_CLI task-unblock {{ID}} --resolution "{{TEXT}}"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-unblock {{ID}} --resolution "{{TEXT}}"
 ```
 
 Then use `/flowstate:start-task` if needed.

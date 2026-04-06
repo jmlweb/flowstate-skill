@@ -29,7 +29,7 @@ If no argument, run batch mode on all pending + active tasks.
 Fetch task data:
 
 ```bash
-$FLOWSTATE_CLI task-list --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-list --json true
 ```
 
 ### 2. Read Task File

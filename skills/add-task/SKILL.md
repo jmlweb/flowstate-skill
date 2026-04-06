@@ -50,7 +50,7 @@ Collect interactively:
 Pipe the description via stdin:
 
 ```bash
-echo "{{DESCRIPTION}}" | $FLOWSTATE_CLI task-create \
+echo "{{DESCRIPTION}}" | node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create \
   --title "{{TITLE}}" \
   --priority {{PRIORITY}} \
   --tags "{{TAGS}}" \

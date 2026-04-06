@@ -38,7 +38,7 @@ Before moving the task, gather relevant context automatically:
 
 1. **Learnings**: Search for relevant learnings using the CLI. Pass the task's tags and its title + description as the query for maximum keyword coverage:
    ```bash
-   $FLOWSTATE_CLI learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
    ```
    The CLI returns only active learnings, scored by tag match and keyword relevance. Read the full content of each result.
 2. **Active tasks**: Read `.backlog/tasks/active/` to list what else is in progress — helps the user understand current workload and spot potential overlaps.
@@ -49,7 +49,7 @@ If no learnings or reports match, skip silently — do not mention the absence.
 ### 4. Move Task to Active
 
 ```bash
-$FLOWSTATE_CLI task-move {{ID}} --to active
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-move {{ID}} --to active
 ```
 
 The CLI moves the file, updates frontmatter (`status: active`, `started: today`), adds a progress log entry, and updates `tasks/index.md` automatically.

@@ -48,13 +48,11 @@ Type: {{TYPE}} | Severity: {{SEVERITY}} | Created: {{DATE}}
 ### 4a. Convert to Task
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-
 # Create task from report
-$FLOWSTATE_CLI task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA}}' --body -
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "Fix: {{TITLE}}" --priority {{P}} --source "report/RPT-{{ID}}" --criteria '{{CRITERIA}}' --body -
 
 # Move report to complete
-$FLOWSTATE_CLI report-move RPT-{{ID}} --status triaged --task-id TSK-{{NEW_ID}}
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" report-move RPT-{{ID}} --status triaged --task-id TSK-{{NEW_ID}}
 ```
 
 The CLI handles frontmatter updates, file moves, and index updates.
@@ -71,8 +69,7 @@ RPT-{{ID}} triaged → TSK-{{NEW_ID}}: {{TITLE}}
 ### 4b. Discard
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-$FLOWSTATE_CLI report-move RPT-{{ID}} --status discarded
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" report-move RPT-{{ID}} --status discarded
 ```
 
 ### 4c. Needs More Info

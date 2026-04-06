@@ -52,8 +52,7 @@ Which tasks? (comma-separated)
 For each selected task, activate it via CLI:
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-$FLOWSTATE_CLI task-move {{ID}} --to active
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-move {{ID}} --to active
 ```
 
 The CLI handles frontmatter updates, file moves, and index updates.
@@ -63,7 +62,7 @@ The CLI handles frontmatter updates, file moves, and index updates.
 Before launching, search for relevant learnings for each selected task using the CLI:
 
 ```bash
-$FLOWSTATE_CLI learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
 ```
 
 The CLI returns only active learnings, scored by tag match and keyword relevance. Run once per task.

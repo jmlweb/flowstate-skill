@@ -18,8 +18,8 @@ Verify `.backlog/` exists.
 ### 1. Read State
 
 ```bash
-$FLOWSTATE_CLI task-list --status pending --json true
-$FLOWSTATE_CLI task-list --status active --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-list --status pending --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-list --status active --json true
 ```
 
 ### 2. Score Candidates
@@ -40,7 +40,7 @@ Once the top candidate is identified:
 
 1. **Learnings**: Search for relevant learnings using the CLI. Pass the task's tags and its title + description for maximum keyword coverage:
    ```bash
-   $FLOWSTATE_CLI learning-search --tags "{{TOP_PICK_TAGS}}" --query "{{TOP_PICK_TITLE}} {{TOP_PICK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TOP_PICK_TAGS}}" --query "{{TOP_PICK_TITLE}} {{TOP_PICK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
    ```
    The CLI returns only active learnings, scored by tag match and keyword relevance. These help the user decide if the task is ready or if past issues should be considered first.
 2. **Pending reports**: Scan `.backlog/reports/pending/` for anything related to the top pick's scope.

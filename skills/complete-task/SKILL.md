@@ -50,7 +50,7 @@ Check the task's **Learnings** section. If it contains entries, offer to create 
 ### 4. Complete Task via CLI
 
 ```bash
-$FLOWSTATE_CLI task-move {{ID}} --to complete
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-move {{ID}} --to complete
 ```
 
 The CLI updates frontmatter (`status: complete`, `completed: today`), adds a progress log entry, moves the file to `tasks/complete/`, and updates `tasks/index.md` automatically.

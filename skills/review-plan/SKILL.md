@@ -56,13 +56,11 @@ Complexity: {{COMPLEXITY}} | Created: {{DATE}}
 ### 4a. Approve
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-
 # Create task from plan
-$FLOWSTATE_CLI task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA}}' --body -
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA}}' --body -
 
 # Move plan to complete
-$FLOWSTATE_CLI plan-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
 ```
 
 The CLI handles frontmatter updates, file moves, and index updates.
@@ -79,8 +77,7 @@ Plan PLN-{{ID}} approved → TSK-{{NEW_ID}}: {{TITLE}}
 ### 4b. Discard
 
 ```bash
-FLOWSTATE_CLI="node ${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js"
-$FLOWSTATE_CLI plan-move PLN-{{ID}} --status discarded
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status discarded
 ```
 
 Confirm to the user.

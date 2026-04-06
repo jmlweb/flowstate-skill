@@ -23,8 +23,8 @@ Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init`.
 ### 1. Fetch Stats and Task Data
 
 ```bash
-$FLOWSTATE_CLI stats --json true
-$FLOWSTATE_CLI task-list --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" stats --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-list --json true
 ```
 
 ### 2. Display
@@ -86,7 +86,7 @@ NOTE: {{N}} high-priority tasks — consider reprioritizing
 If the stats from the CLI don't match what's in `tasks/index.md`, rebuild:
 
 ```bash
-$FLOWSTATE_CLI index-rebuild
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" index-rebuild
 ```
 
 Skip this step if counts match — avoids unnecessary file reads.
