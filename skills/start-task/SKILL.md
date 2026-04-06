@@ -73,7 +73,14 @@ Reminders:
   /flowstate:add-learning   — Document insights as you work
   /flowstate:block-task      — If you hit a blocker
   /flowstate:complete-task   — When all criteria are met
+
+Proceed with implementation? (yes / no)
 ```
+
+### 6. Handle Response
+
+- **yes**: Begin implementing the task — read the relevant code, make changes, run tests
+- **no**: "OK, use `proceed` or start working whenever you're ready"
 
 ## Notes
 
