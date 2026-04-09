@@ -107,4 +107,38 @@ describe("taskMove", () => {
       "not found",
     );
   });
+
+  it("keeps correct index counts after completing multiple tasks in rapid succession", async () => {
+    for (let i = 0; i < 3; i++) {
+      await taskCreate(tmp, {
+        title: `Task ${i + 1}`,
+        priority: "P3",
+        tags: [],
+        description: "",
+        criteria: [],
+        source: "manual",
+        dependsOn: [],
+      });
+    }
+    // Move all to active
+    await Promise.all([
+      taskMove(tmp, "TSK-001", "active"),
+      taskMove(tmp, "TSK-002", "active"),
+      taskMove(tmp, "TSK-003", "active"),
+    ]);
+    // Complete all in rapid succession (simulates back-to-back CLI invocations)
+    await Promise.all([
+      taskMove(tmp, "TSK-001", "complete"),
+      taskMove(tmp, "TSK-002", "complete"),
+      taskMove(tmp, "TSK-003", "complete"),
+    ]);
+
+    const index = await readFile(
+      join(tmp, ".backlog", "tasks", "index.md"),
+      "utf-8",
+    );
+    expect(index).toContain("| Active | 0 |");
+    expect(index).toContain("| Complete | 3 |");
+    expect(index).toContain("| Pending | 0 |");
+  });
 });

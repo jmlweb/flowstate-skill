@@ -1,11 +1,10 @@
-import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { TaskStatus } from "../core/types.js";
-import { taskDir, taskIndexPath } from "../core/paths.js";
+import { taskDir } from "../core/paths.js";
 import { findEntityFile, readEntity, writeEntity, moveFile } from "../core/fs.js";
 import { today } from "../core/date.js";
-import { addTableRow, removeTableRow } from "../core/markdown.js";
 import { EntityNotFoundError } from "../core/errors.js";
+import { indexRebuild } from "./index-rebuild.js";
 
 const STATUS_TO_DIR: Record<string, TaskStatus> = {
   active: "active",
@@ -43,7 +42,6 @@ export async function taskMove(
   const doc = await readEntity(sourcePath);
   const fm = { ...(doc.frontmatter as Record<string, unknown>) };
   const date = today();
-  const oldStatus = String(fm["status"] ?? "pending");
 
   // Update frontmatter based on target
   fm["status"] = to === "active" && fm["blocked-by"] ? "blocked" : to;
@@ -74,8 +72,8 @@ export async function taskMove(
     await moveFile(sourcePath, destPath);
   }
 
-  // Update index
-  await updateIndex(cwd, id, fm, oldStatus, to, date);
+  // Rebuild index from filesystem to avoid stale read-modify-write races
+  await indexRebuild(cwd, "tasks");
 
   return { path: destPath };
 }
@@ -90,70 +88,4 @@ function appendProgressLog(body: string, entry: string): string {
   }
   lines.splice(insertIndex, 0, entry);
   return lines.join("\n");
-}
-
-async function updateIndex(
-  cwd: string,
-  id: string,
-  fm: Record<string, unknown>,
-  oldStatus: string,
-  newStatus: string,
-  date: string,
-): Promise<void> {
-  const indexPath = taskIndexPath(cwd);
-  let content = await readFile(indexPath, "utf-8");
-
-  // Remove from Pending Tasks table if it was pending
-  if (oldStatus === "pending") {
-    content = removeTableRow(content, "Pending Tasks", (row) =>
-      row.includes(id),
-    );
-    content = decrementStat(content, "Pending");
-  }
-
-  // Remove from Active Tasks section if it was active/blocked
-  if (oldStatus === "active" || oldStatus === "blocked") {
-    // Active tasks are listed as markdown list items, not table rows
-    const lines = content.split("\n");
-    const filtered = lines.filter((line) => !line.includes(id));
-    content = filtered.join("\n");
-
-    if (oldStatus === "blocked") {
-      content = decrementStat(content, "Blocked");
-    } else {
-      content = decrementStat(content, "Active");
-    }
-  }
-
-  // Add to new section
-  if (newStatus === "active") {
-    content = incrementStat(content, fm["blocked-by"] ? "Blocked" : "Active");
-  } else if (newStatus === "complete") {
-    content = incrementStat(content, "Complete");
-    const completedRow = `| ${id} | ${fm["title"]} | ${date} |`;
-    content = addTableRow(content, "Recently Completed", completedRow);
-  } else if (newStatus === "pending") {
-    content = incrementStat(content, "Pending");
-    const tags = Array.isArray(fm["tags"]) ? (fm["tags"] as string[]).join(", ") : "";
-    const pendingRow = `| ${id} | ${fm["title"]} | ${fm["priority"]} | ${tags} | ${fm["created"]} |`;
-    content = addTableRow(content, "Pending Tasks", pendingRow);
-  }
-
-  await writeFile(indexPath, content, "utf-8");
-}
-
-function incrementStat(content: string, label: string): string {
-  const pattern = new RegExp(`\\| ${label} \\| (\\d+) \\|`);
-  const match = content.match(pattern);
-  if (!match) return content;
-  const current = parseInt(match[1]!, 10);
-  return content.replace(pattern, `| ${label} | ${current + 1} |`);
-}
-
-function decrementStat(content: string, label: string): string {
-  const pattern = new RegExp(`\\| ${label} \\| (\\d+) \\|`);
-  const match = content.match(pattern);
-  if (!match) return content;
-  const current = parseInt(match[1]!, 10);
-  return content.replace(pattern, `| ${label} | ${Math.max(0, current - 1)} |`);
 }
