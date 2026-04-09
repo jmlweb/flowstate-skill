@@ -5,9 +5,9 @@
 | Status | Count |
 |--------|-------|
 | Pending | 0 |
-| Active | 1 |
+| Active | 0 |
 | Blocked | 0 |
-| Complete | 6 |
+| Complete | 7 |
 
 ## Active Tasks
 
@@ -28,3 +28,4 @@ _No active tasks._
 | TSK-004 | Add plugin hooks for proactive flowstate behavior | 2026-04-05 |
 | TSK-005 | Fix FLOWSTATE_CLI variable expansion in zsh shells | 2026-04-06 |
 | TSK-006 | Document --criteria flag format in triage-report and review-plan skills | 2026-04-06 |
+| TSK-007 | Fix: Flowstate CLI empties index tables on rapid moves | 2026-04-09 |

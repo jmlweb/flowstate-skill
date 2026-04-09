@@ -1,13 +1,14 @@
 ---
 id: TSK-007
 title: Fix: Flowstate CLI empties index tables on rapid moves
-status: active
+status: complete
 priority: P3
 tags: []
 created: 2026-04-09
 source: report/RPT-002
 depends-on: []
 started: 2026-04-09
+completed: 2026-04-09
 ---
 
 # Fix: Flowstate CLI empties index tables on rapid moves
@@ -55,3 +56,4 @@ RPT-002
 
 - [2026-04-09] Created
 - [2026-04-09] Started
+- [2026-04-09] Completed
