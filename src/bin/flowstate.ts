@@ -136,7 +136,13 @@ async function main(): Promise<void> {
           console.error("Usage: flowstate task-move <id> --to <active|complete|pending>");
           process.exit(1);
         }
-        const to = required(flags, "to") as "active" | "complete" | "pending";
+        const toRaw = required(flags, "to");
+        const VALID_TO = ["active", "complete", "pending"] as const;
+        if (!VALID_TO.includes(toRaw as (typeof VALID_TO)[number])) {
+          console.error(`Invalid --to value: "${toRaw}". Must be one of: ${VALID_TO.join(", ")}`);
+          process.exit(1);
+        }
+        const to = toRaw as "active" | "complete" | "pending";
         const result = await taskMove(cwd, id, to);
         output(result, json);
         break;
