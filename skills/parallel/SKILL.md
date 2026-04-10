@@ -59,15 +59,15 @@ The CLI handles frontmatter updates, file moves, and index updates.
 
 ### 5. Load Context for Subagents
 
-Before launching, search for relevant learnings for each selected task using the CLI:
+Run a single combined search using all unique tags and titles from the selected tasks:
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{ALL_UNIQUE_TAGS}}" --query "{{ALL_TITLES_CONCATENATED}}" --limit 5 --json true
 ```
 
-The CLI returns only active learnings, scored by tag match and keyword relevance. Run once per task.
+Distribute results to subagents by tag overlap: include a learning in a subagent's prompt if its tags or reasons reference terms from that task's title or tags. A single learning may appear in multiple prompts if relevant.
 
-Also scan `.backlog/reports/pending/` for any reports related to each task's scope.
+Also scan `.backlog/reports/pending/` once for any reports related to the selected tasks' scope.
 
 ### 6. Launch Subagents
 

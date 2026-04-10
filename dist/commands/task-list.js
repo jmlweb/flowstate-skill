@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import { taskDir } from "../core/paths.js";
 import { listFiles, readEntity } from "../core/fs.js";
-export async function taskList(cwd, status) {
+export async function taskList(cwd, status, limit) {
     const statuses = status
         ? [status]
         : ["pending", "active", "complete"];
@@ -33,5 +33,6 @@ export async function taskList(cwd, status) {
             items.push(item);
         }
     }
-    return items;
+    items.sort((a, b) => a.priority.localeCompare(b.priority));
+    return limit ? items.slice(0, limit) : items;
 }

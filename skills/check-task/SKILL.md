@@ -12,7 +12,9 @@ Verify that a task's declared status accurately reflects the actual implementati
 
 ## Arguments
 
-Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`. Without argument, runs batch mode on all pending and active tasks.
+Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.
+Also accepts `pending` or `active` to batch-check only that status group.
+Without argument, runs batch mode on all pending and active tasks.
 
 ## Prerequisites
 
@@ -24,7 +26,9 @@ Verify `.backlog/` exists.
 
 If `$ARGUMENTS` provided, find the task in `tasks/pending/`, `tasks/active/`, or `tasks/complete/`.
 
-If no argument, run batch mode on all pending + active tasks.
+If `$ARGUMENTS` is `pending` or `active`, batch-check only that status group.
+
+If no argument, run batch mode on all pending + active tasks. If total exceeds 8, warn the user and ask to confirm or narrow with `pending`/`active`.
 
 Fetch task data:
 

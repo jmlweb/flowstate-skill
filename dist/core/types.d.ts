@@ -1,7 +1,7 @@
-export type EntityType = "task" | "plan" | "report" | "learning";
+export type EntityType = "task" | "idea" | "report" | "learning";
 export type Priority = "P1" | "P2" | "P3" | "P4";
 export type TaskStatus = "pending" | "active" | "blocked" | "complete";
-export type PlanStatus = "pending" | "approved" | "discarded";
+export type IdeaStatus = "pending" | "approved" | "discarded";
 export type ReportStatus = "pending" | "triaged" | "discarded";
 export type LearningStatus = "active" | "superseded" | "archived";
 export type ReportType = "bug" | "finding" | "improvement" | "security";
@@ -22,10 +22,10 @@ export interface TaskFrontmatter {
     readonly completed?: string;
     readonly "blocked-by"?: string;
 }
-export interface PlanFrontmatter {
+export interface IdeaFrontmatter {
     readonly id: string;
     readonly title: string;
-    readonly status: PlanStatus;
+    readonly status: IdeaStatus;
     readonly created: string;
     readonly complexity: Complexity;
     readonly reviewed?: string;
@@ -49,7 +49,7 @@ export interface LearningFrontmatter {
     readonly task: string;
     readonly created: string;
 }
-export type Frontmatter = TaskFrontmatter | PlanFrontmatter | ReportFrontmatter | LearningFrontmatter;
+export type Frontmatter = TaskFrontmatter | IdeaFrontmatter | ReportFrontmatter | LearningFrontmatter;
 export declare const validatePriority: (v: string) => Priority;
 export declare const validateComplexity: (v: string) => Complexity;
 export declare const validateReportType: (v: string) => ReportType;

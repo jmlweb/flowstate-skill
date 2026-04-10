@@ -16,7 +16,7 @@ Task description (optional): $ARGUMENTS
 
 ## Prerequisites
 
-Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init` first.
+Verify `.backlog/` exists. If not, tell the user to run `/flowstate:setup` first.
 
 ## Workflow
 
@@ -72,5 +72,5 @@ Created TSK-{{ID}}: {{TITLE}}
 
 Next steps:
   /flowstate:start-task TSK-{{ID}}  — Start working on it
-  /flowstate:status                 — View updated backlog
+  /flowstate:overview               — View updated backlog
 ```

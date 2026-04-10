@@ -1,6 +1,6 @@
 ---
-name: review-plan
-description: Review a pending plan and decide — approve (convert to task), discard, or revise. Use when the user says "review plan", "approve plan", "check the plan", or after generating a plan with /flowstate:plan.
+name: review-idea
+description: Review a pending plan and decide — approve (convert to task), discard, or revise. Use when the user says "review plan", "approve plan", "check the plan", or after generating a plan with /flowstate:idea.
 argument-hint: [plan ID]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
 model: sonnet
@@ -16,13 +16,13 @@ Plan identifier (optional): $ARGUMENTS — accepts `PLN-001`, `001`, or `1`.
 
 ## Prerequisites
 
-Verify `.backlog/plans/pending/` has plans. If empty, inform the user.
+Verify `.backlog/ideas/pending/` has plans. If empty, inform the user.
 
 ## Workflow
 
 ### 1. Identify Plan
 
-If `$ARGUMENTS` provided, find in `.backlog/plans/pending/`.
+If `$ARGUMENTS` provided, find in `.backlog/ideas/pending/`.
 
 If no argument, list pending plans and ask which to review.
 
@@ -60,7 +60,7 @@ Complexity: {{COMPLEXITY}} | Created: {{DATE}}
 node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-create --title "{{TITLE}}" --priority {{P}} --source "plan/PLN-{{ID}}" --criteria '{{CRITERIA_JSON}}' --body -
 
 # Move plan to complete
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" idea-move PLN-{{ID}} --status approved --task-id TSK-{{NEW_ID}}
 ```
 
 The CLI handles frontmatter updates, file moves, and index updates.
@@ -77,7 +77,7 @@ Plan PLN-{{ID}} approved → TSK-{{NEW_ID}}: {{TITLE}}
 ### 4b. Discard
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-move PLN-{{ID}} --status discarded
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" idea-move PLN-{{ID}} --status discarded
 ```
 
 Confirm to the user.
@@ -85,7 +85,7 @@ Confirm to the user.
 ### 4c. Revise
 
 1. Discuss needed changes with the user
-2. Edit plan in-place (stays in `plans/pending/`)
+2. Edit plan in-place (stays in `ideas/pending/`)
 3. Add revision note:
    ```markdown
    ## Revision History

@@ -1,9 +1,9 @@
-export type EntityType = "task" | "plan" | "report" | "learning";
+export type EntityType = "task" | "idea" | "report" | "learning";
 
 export type Priority = "P1" | "P2" | "P3" | "P4";
 
 export type TaskStatus = "pending" | "active" | "blocked" | "complete";
-export type PlanStatus = "pending" | "approved" | "discarded";
+export type IdeaStatus = "pending" | "approved" | "discarded";
 export type ReportStatus = "pending" | "triaged" | "discarded";
 export type LearningStatus = "active" | "superseded" | "archived";
 
@@ -13,14 +13,14 @@ export type Complexity = "low" | "medium" | "high";
 
 export const ENTITY_PREFIXES: Record<EntityType, string> = {
   task: "TSK",
-  plan: "PLN",
+  idea: "PLN",
   report: "RPT",
   learning: "LRN",
 } as const;
 
 export const PREFIX_TO_TYPE: Record<string, EntityType> = {
   TSK: "task",
-  PLN: "plan",
+  PLN: "idea",
   RPT: "report",
   LRN: "learning",
 } as const;
@@ -39,10 +39,10 @@ export interface TaskFrontmatter {
   readonly "blocked-by"?: string;
 }
 
-export interface PlanFrontmatter {
+export interface IdeaFrontmatter {
   readonly id: string;
   readonly title: string;
-  readonly status: PlanStatus;
+  readonly status: IdeaStatus;
   readonly created: string;
   readonly complexity: Complexity;
   readonly reviewed?: string;
@@ -71,7 +71,7 @@ export interface LearningFrontmatter {
 
 export type Frontmatter =
   | TaskFrontmatter
-  | PlanFrontmatter
+  | IdeaFrontmatter
   | ReportFrontmatter
   | LearningFrontmatter;
 

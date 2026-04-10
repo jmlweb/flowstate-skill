@@ -4,14 +4,14 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { reportCreate } from "./report-create.js";
 import { reportMove } from "./report-move.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 import { readEntity } from "../core/fs.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
 });
 
 afterEach(async () => {

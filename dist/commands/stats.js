@@ -1,4 +1,4 @@
-import { taskDir, planDir, reportDir, learningsDir } from "../core/paths.js";
+import { taskDir, ideaDir, reportDir, learningsDir } from "../core/paths.js";
 import { listFiles, readEntity } from "../core/fs.js";
 import { join } from "node:path";
 import { readdir } from "node:fs/promises";
@@ -7,7 +7,7 @@ export async function stats(cwd) {
     let active = 0;
     let blocked = 0;
     let complete = 0;
-    const [taskCounts, pendingPlans, pendingReports, learnings] = await Promise.all([
+    const [taskCounts, pendingIdeas, pendingReports, learnings] = await Promise.all([
         Promise.all(["pending", "active", "complete"].map(async (status) => {
             const dir = taskDir(cwd, status);
             const files = await listFiles(dir);
@@ -29,7 +29,7 @@ export async function stats(cwd) {
             }
             return { status, count: filtered.length, active: 0, blocked: 0 };
         })),
-        listFiles(planDir(cwd, "pending")).then((f) => f.length),
+        listFiles(ideaDir(cwd, "pending")).then((f) => f.length),
         listFiles(reportDir(cwd, "pending")).then((f) => f.length),
         readdir(learningsDir(cwd)).then((e) => e.filter((n) => n.startsWith("LRN-")).length).catch(() => 0),
     ]);
@@ -43,5 +43,5 @@ export async function stats(cwd) {
         else if (c.status === "complete")
             complete = c.count;
     }
-    return { pending, active, blocked, complete, pendingPlans, pendingReports, learnings };
+    return { pending, active, blocked, complete, pendingIdeas, pendingReports, learnings };
 }

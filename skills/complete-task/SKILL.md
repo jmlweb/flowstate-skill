@@ -47,6 +47,16 @@ Options:
 
 Check the task's **Learnings** section. If it contains entries, offer to create full learning entries via `/flowstate:add-learning`.
 
+### 3b. Prompt for Learnings
+
+If the task file has NO "Learnings" section or the section is empty, ask:
+
+```
+Any insights worth capturing? (gotchas, patterns that worked, things to avoid)
+- yes → gather a one-line title and 2-3 sentences, then run /flowstate:add-learning
+- no → proceed
+```
+
 ### 4. Complete Task via CLI
 
 ```bash
@@ -55,16 +65,12 @@ node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-move {{ID}} --to complet
 
 The CLI updates frontmatter (`status: complete`, `completed: today`), adds a progress log entry, moves the file to `tasks/complete/`, and updates `tasks/index.md` automatically.
 
-### 5. Suggest Next Task
+### 5. Confirm Completion
 
 ```
 Completed TSK-{{ID}}: {{TITLE}}
-Learnings extracted: {{N}} items
+Learnings captured: {{N}} items
+{{PENDING_COUNT}} tasks remaining.
 
-## Pending Tasks (by priority)
-| ID | Title | Priority |
-|----|-------|----------|
-
-/flowstate:start-task  — Begin next task
-/flowstate:next-task   — Get a recommendation
+/flowstate:next-task — Get a recommendation
 ```

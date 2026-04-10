@@ -4,7 +4,7 @@ import { parseId, formatId, normalizeIdInput } from "./id.js";
 describe("parseId", () => {
   it("parses full ID", () => {
     expect(parseId("TSK-001")).toEqual({ type: "task", num: 1 });
-    expect(parseId("PLN-042")).toEqual({ type: "plan", num: 42 });
+    expect(parseId("PLN-042")).toEqual({ type: "idea", num: 42 });
     expect(parseId("RPT-100")).toEqual({ type: "report", num: 100 });
     expect(parseId("LRN-007")).toEqual({ type: "learning", num: 7 });
   });
@@ -22,7 +22,7 @@ describe("parseId", () => {
 describe("formatId", () => {
   it("formats with zero-padded 3-digit number", () => {
     expect(formatId("task", 1)).toBe("TSK-001");
-    expect(formatId("plan", 42)).toBe("PLN-042");
+    expect(formatId("idea", 42)).toBe("PLN-042");
     expect(formatId("report", 100)).toBe("RPT-100");
     expect(formatId("learning", 7)).toBe("LRN-007");
   });
@@ -31,7 +31,7 @@ describe("formatId", () => {
 describe("normalizeIdInput", () => {
   it("normalizes bare number to full ID", () => {
     expect(normalizeIdInput("1", "task")).toBe("TSK-001");
-    expect(normalizeIdInput("42", "plan")).toBe("PLN-042");
+    expect(normalizeIdInput("42", "idea")).toBe("PLN-042");
   });
 
   it("normalizes zero-padded number", () => {

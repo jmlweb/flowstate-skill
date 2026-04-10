@@ -19,6 +19,7 @@ export interface TaskListItem {
 export async function taskList(
   cwd: string,
   status?: TaskStatus,
+  limit?: number,
 ): Promise<TaskListItem[]> {
   const statuses: TaskStatus[] = status
     ? [status]
@@ -56,5 +57,6 @@ export async function taskList(
     }
   }
 
-  return items;
+  items.sort((a, b) => a.priority.localeCompare(b.priority));
+  return limit ? items.slice(0, limit) : items;
 }

@@ -11,4 +11,4 @@ export interface TaskListItem {
     readonly blockedBy: string | undefined;
     readonly path: string;
 }
-export declare function taskList(cwd: string, status?: TaskStatus): Promise<TaskListItem[]>;
+export declare function taskList(cwd: string, status?: TaskStatus, limit?: number): Promise<TaskListItem[]>;

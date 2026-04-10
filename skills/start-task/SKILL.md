@@ -16,7 +16,7 @@ Task identifier (optional): $ARGUMENTS — accepts `TSK-001`, `001`, or `1`.
 
 ## Prerequisites
 
-Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init` first.
+Verify `.backlog/` exists. If not, tell the user to run `/flowstate:setup` first.
 
 ## Workflow
 
@@ -38,9 +38,9 @@ Before moving the task, gather relevant context automatically:
 
 1. **Learnings**: Search for relevant learnings using the CLI. Pass the task's tags and its title + description as the query for maximum keyword coverage:
    ```bash
-   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --body true --json true
+   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --tags "{{TASK_TAGS}}" --query "{{TASK_TITLE}} {{TASK_DESCRIPTION_FIRST_LINE}}" --limit 3 --json true
    ```
-   The CLI returns only active learnings, scored by tag match and keyword relevance. Read the full content of each result.
+   The CLI returns only active learnings, scored by tag match and keyword relevance. Use the `title`, `tags`, and `reasons` fields to summarize relevance. Only read the full learning file if the user asks for details.
 2. **Active tasks**: Read `.backlog/tasks/active/` to list what else is in progress — helps the user understand current workload and spot potential overlaps.
 3. **Pending reports**: Scan `.backlog/reports/pending/` titles for anything related to this task's scope — avoids working on something with a known open issue.
 

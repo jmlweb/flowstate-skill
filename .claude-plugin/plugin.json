@@ -1,7 +1,7 @@
 {
   "name": "flowstate",
-  "description": "Generic backlog management system. Manage tasks, plans, reports, and learnings for any project via .backlog/ directory.",
-  "version": "1.3.0",
+  "description": "Generic backlog management system. Manage tasks, ideas, reports, and learnings for any project via .backlog/ directory.",
+  "version": "2.0.0",
   "author": {
     "name": "jmlweb",
     "url": "https://github.com/jmlweb"
@@ -13,7 +13,7 @@
     "backlog",
     "tasks",
     "project-management",
-    "plans",
+    "ideas",
     "reports",
     "learnings"
   ],

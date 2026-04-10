@@ -2,6 +2,12 @@ import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { learningsDir } from "../core/paths.js";
 import { readEntity } from "../core/fs.js";
+const STOPWORDS = new Set([
+    "a", "an", "the", "in", "on", "at", "to", "for", "of", "with", "by",
+    "from", "as", "is", "it", "and", "or", "not", "be", "if", "so", "no", "up",
+    "add", "fix", "update", "implement", "create", "remove", "change", "set",
+    "use", "make", "ensure", "support", "handle", "move", "run", "get", "check",
+]);
 export async function learningSearch(cwd, input) {
     const limit = input.limit ?? 3;
     const lDir = learningsDir(cwd);
@@ -14,7 +20,7 @@ export async function learningSearch(cwd, input) {
     }
     const scored = [];
     const queryTerms = input.query
-        ? input.query.toLowerCase().split(/\s+/).filter(Boolean)
+        ? input.query.toLowerCase().split(/\s+/).filter((t) => t.length > 2 && !STOPWORDS.has(t))
         : [];
     const inputTags = input.tags?.map((t) => t.toLowerCase()) ?? [];
     for (const entry of entries) {

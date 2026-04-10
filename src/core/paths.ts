@@ -9,7 +9,7 @@ export function findBacklogRoot(start: string): string {
     const parent = dirname(dir);
     if (parent === dir) {
       throw new Error(
-        `No .backlog/ directory found in ${start} or any parent directory. Run "flowstate init" to create one.`,
+        `No .backlog/ directory found in ${start} or any parent directory. Run "flowstate setup" to create one.`,
       );
     }
     dir = parent;
@@ -26,11 +26,11 @@ export function taskDir(cwd: string, status: TaskStatus | "all"): string {
   return join(backlogRoot(cwd), "tasks", status);
 }
 
-export function planDir(
+export function ideaDir(
   cwd: string,
   status: "pending" | "complete",
 ): string {
-  return join(backlogRoot(cwd), "plans", status);
+  return join(backlogRoot(cwd), "ideas", status);
 }
 
 export function reportDir(
@@ -67,9 +67,9 @@ export const ENTITY_DIRS: Record<
     { dir: "tasks/active", status: "active" },
     { dir: "tasks/complete", status: "complete" },
   ],
-  plan: [
-    { dir: "plans/pending", status: "pending" },
-    { dir: "plans/complete", status: "complete" },
+  idea: [
+    { dir: "ideas/pending", status: "pending" },
+    { dir: "ideas/complete", status: "complete" },
   ],
   report: [
     { dir: "reports/pending", status: "pending" },

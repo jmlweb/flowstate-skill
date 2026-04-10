@@ -3,14 +3,14 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { nextId } from "./next-id.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 import { ensureDir } from "../core/fs.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
 });
 
 afterEach(async () => {
@@ -20,7 +20,7 @@ afterEach(async () => {
 describe("nextId", () => {
   it("returns 001 for empty backlog", async () => {
     expect(await nextId(tmp, "task")).toBe("TSK-001");
-    expect(await nextId(tmp, "plan")).toBe("PLN-001");
+    expect(await nextId(tmp, "idea")).toBe("PLN-001");
     expect(await nextId(tmp, "report")).toBe("RPT-001");
     expect(await nextId(tmp, "learning")).toBe("LRN-001");
   });

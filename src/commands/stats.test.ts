@@ -6,13 +6,13 @@ import { stats } from "./stats.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
 import { taskBlock } from "./task-block.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
 });
 
 afterEach(async () => {
@@ -22,7 +22,7 @@ afterEach(async () => {
 describe("stats", () => {
   it("returns zeros for empty backlog", async () => {
     const result = await stats(tmp);
-    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("counts tasks by status", async () => {
@@ -34,7 +34,7 @@ describe("stats", () => {
     await taskMove(tmp, "TSK-003", "complete");
 
     const result = await stats(tmp);
-    expect(result).toEqual({ pending: 1, active: 1, blocked: 0, complete: 1, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(result).toEqual({ pending: 1, active: 1, blocked: 0, complete: 1, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("counts blocked tasks separately", async () => {
@@ -43,6 +43,6 @@ describe("stats", () => {
     await taskBlock(tmp, "TSK-001", "waiting");
 
     const result = await stats(tmp);
-    expect(result).toEqual({ pending: 0, active: 0, blocked: 1, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(result).toEqual({ pending: 0, active: 0, blocked: 1, complete: 0, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
   });
 });

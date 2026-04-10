@@ -1,5 +1,5 @@
 ---
-name: plan
+name: idea
 description: Generate a detailed implementation plan for a feature or change before coding begins. Use when the user says "plan this", "how should we implement", "design approach", or when a task needs architectural thinking.
 argument-hint: [feature description]
 allowed-tools: [Read, Write, Bash, Glob, Grep]
@@ -16,7 +16,7 @@ Feature description (optional): $ARGUMENTS
 
 ## Prerequisites
 
-Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init` first.
+Verify `.backlog/` exists. If not, tell the user to run `/flowstate:setup` first.
 
 ## Workflow
 
@@ -34,9 +34,9 @@ Before exploring code, gather backlog context:
 
 1. **Learnings**: Search for relevant learnings using the CLI. Pass the feature description as the query:
    ```bash
-   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --query "{{FEATURE_DESCRIPTION}}" --limit 3 --body true --json true
+   node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" learning-search --query "{{FEATURE_DESCRIPTION}}" --limit 3 --json true
    ```
-   The CLI returns only active learnings, scored by keyword relevance. These may reveal past decisions, gotchas, or proven patterns that should inform the plan.
+   The CLI returns only active learnings, scored by keyword relevance. Use `title` and `reasons` to assess relevance. Read the full learning file only for high-scoring matches that directly affect the plan.
 2. **Active tasks**: Read `.backlog/tasks/active/` — the plan should account for work already in progress to avoid conflicts or duplication.
 3. **Pending reports**: Scan `.backlog/reports/pending/` for related bugs or findings that the plan should address or acknowledge.
 
@@ -53,12 +53,12 @@ Based on the description:
 ### 4. Generate Plan via CLI
 
 ```bash
-cat <<'BODY' | node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" plan-create --title "{{TITLE}}" --complexity {{COMPLEXITY}} --body -
+cat <<'BODY' | node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" idea-create --title "{{TITLE}}" --complexity {{COMPLEXITY}} --body -
 {{PLAN_CONTENT}}
 BODY
 ```
 
-The CLI handles ID assignment, file creation, and placement in `plans/pending/`.
+The CLI handles ID assignment, file creation, and placement in `ideas/pending/`.
 
 **Complexity guidelines:**
 - **low**: Single file or small change, clear path
@@ -70,7 +70,7 @@ The CLI handles ID assignment, file creation, and placement in `plans/pending/`.
 ```
 Created PLN-{{ID}}: {{TITLE}}
   Complexity: {{COMPLEXITY}}
-  File: .backlog/plans/pending/PLN-{{ID}}-{{slug}}.md
+  File: .backlog/ideas/pending/PLN-{{ID}}-{{slug}}.md
 
-Next: /flowstate:review-plan PLN-{{ID}}  — Approve, discard, or revise
+Next: /flowstate:review-idea PLN-{{ID}}  — Approve, discard, or revise
 ```

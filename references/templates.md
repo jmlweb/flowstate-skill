@@ -48,9 +48,9 @@ depends-on: []
 
 ---
 
-## Plan Template
+## Idea Template
 
-File: `plans/pending/PLN-XXX-slug.md`
+File: `ideas/pending/PLN-XXX-slug.md`
 
 ```markdown
 ---
@@ -231,8 +231,8 @@ For each type, scan ALL subdirectories to find the max existing ID:
 next_id=$(ls .backlog/tasks/{pending,active,complete}/ 2>/dev/null | grep -oP 'TSK-\K\d+' | sort -n | tail -1)
 next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
 
-# Plans
-next_id=$(ls .backlog/plans/{pending,complete}/ 2>/dev/null | grep -oP 'PLN-\K\d+' | sort -n | tail -1)
+# Ideas
+next_id=$(ls .backlog/ideas/{pending,complete}/ 2>/dev/null | grep -oP 'PLN-\K\d+' | sort -n | tail -1)
 next_id=$(printf "%03d" $(( ${next_id:-0} + 1 )))
 
 # Reports

@@ -1,5 +1,5 @@
 ---
-name: status
+name: overview
 description: Show a comprehensive backlog overview with stats, active work, and health warnings. Use when the user asks "backlog status", "what's going on", "show tasks", "project overview", or wants to see the current state of all work.
 argument-hint: [summary]
 allowed-tools: [Read, Bash, Glob, Grep]
@@ -16,7 +16,7 @@ $ARGUMENTS — ignored; this command takes no arguments.
 
 ## Prerequisites
 
-Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init`.
+Verify `.backlog/` exists. If not, tell the user to run `/flowstate:setup`.
 
 ## Workflow
 
@@ -47,9 +47,11 @@ node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-list --json true
 | ID | Title | Started | Tags |
 |----|-------|---------|------|
 
-### Pending Tasks (by priority)
+### Pending Tasks (top 10 by priority)
 | ID | Title | Priority | Tags | Created |
 |----|-------|----------|------|---------|
+
+If more than 10 pending tasks exist, add a footer: "… and N more. Use `task-list --status pending --json true` for the full list."
 
 ### Pending Plans
 | ID | Title | Complexity | Created |
@@ -96,6 +98,6 @@ Skip this step if counts match — avoids unnecessary file reads.
 ```
 /flowstate:next-task       — Get a recommendation
 /flowstate:add-task        — Add new work
-/flowstate:review-plan     — Review pending plans
+/flowstate:review-idea     — Review pending plans
 /flowstate:triage-report   — Triage pending reports
 ```

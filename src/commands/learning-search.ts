@@ -22,6 +22,13 @@ export interface LearningSearchResult {
   readonly body?: string;
 }
 
+const STOPWORDS = new Set([
+  "a", "an", "the", "in", "on", "at", "to", "for", "of", "with", "by",
+  "from", "as", "is", "it", "and", "or", "not", "be", "if", "so", "no", "up",
+  "add", "fix", "update", "implement", "create", "remove", "change", "set",
+  "use", "make", "ensure", "support", "handle", "move", "run", "get", "check",
+]);
+
 export async function learningSearch(
   cwd: string,
   input: LearningSearchInput,
@@ -40,7 +47,7 @@ export async function learningSearch(
 
   const scored: LearningSearchResult[] = [];
   const queryTerms = input.query
-    ? input.query.toLowerCase().split(/\s+/).filter(Boolean)
+    ? input.query.toLowerCase().split(/\s+/).filter((t) => t.length > 2 && !STOPWORDS.has(t))
     : [];
   const inputTags = input.tags?.map((t) => t.toLowerCase()) ?? [];
 

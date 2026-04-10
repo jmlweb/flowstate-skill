@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { init } from "../commands/init.js";
+import { setup } from "../commands/setup.js";
 import { nextId } from "../commands/next-id.js";
 import { taskCreate } from "../commands/task-create.js";
 import { taskList } from "../commands/task-list.js";
@@ -9,8 +9,8 @@ import { taskUpdate } from "../commands/task-update.js";
 import { taskUnblock } from "../commands/task-unblock.js";
 import { stats } from "../commands/stats.js";
 import { indexRebuild } from "../commands/index-rebuild.js";
-import { planCreate } from "../commands/plan-create.js";
-import { planMove } from "../commands/plan-move.js";
+import { ideaCreate } from "../commands/idea-create.js";
+import { ideaMove } from "../commands/idea-move.js";
 import { reportCreate } from "../commands/report-create.js";
 import { reportMove } from "../commands/report-move.js";
 import { learningCreate } from "../commands/learning-create.js";
@@ -66,26 +66,26 @@ async function getBody(flags) {
 async function main() {
     const [command, ...rest] = process.argv.slice(2);
     if (!command) {
-        console.error("Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-block, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create, learning-search");
+        console.error("Usage: flowstate <command> [args]\n\nCommands: setup, next-id, task-create, task-list, task-move, task-block, task-update, task-unblock, stats, index-rebuild, idea-create, idea-move, report-create, report-move, learning-create, learning-search");
         process.exit(1);
     }
     const { flags, flagArrays, positional } = parseArgs(rest);
     const json = flags["json"] === "true";
-    const cwd = command === "init"
+    const cwd = command === "setup"
         ? process.cwd()
         : findBacklogRoot(process.cwd());
     try {
         switch (command) {
-            case "init": {
+            case "setup": {
                 const name = flags["project-name"] ?? "Project";
-                const root = await init(cwd, name);
+                const root = await setup(cwd, name);
                 output({ root }, json);
                 break;
             }
             case "next-id": {
                 const type = positional[0];
                 if (!type) {
-                    console.error("Usage: flowstate next-id <task|plan|report|learning>");
+                    console.error("Usage: flowstate next-id <task|idea|report|learning>");
                     process.exit(1);
                 }
                 const id = await nextId(cwd, type);
@@ -110,7 +110,8 @@ async function main() {
             }
             case "task-list": {
                 const status = flags["status"];
-                const items = await taskList(cwd, status);
+                const limit = flags["limit"] ? parseInt(flags["limit"], 10) : undefined;
+                const items = await taskList(cwd, status, limit);
                 output(items, json);
                 break;
             }
@@ -180,9 +181,9 @@ async function main() {
                 output({ rebuilt: type }, json);
                 break;
             }
-            case "plan-create": {
+            case "idea-create": {
                 const body = await getBody(flags);
-                const result = await planCreate(cwd, {
+                const result = await ideaCreate(cwd, {
                     title: required(flags, "title"),
                     complexity: validateComplexity(required(flags, "complexity")),
                     body,
@@ -190,13 +191,13 @@ async function main() {
                 output(result, json);
                 break;
             }
-            case "plan-move": {
+            case "idea-move": {
                 const id = positional[0];
                 if (!id) {
-                    console.error("Usage: flowstate plan-move <id> --status <approved|discarded>");
+                    console.error("Usage: flowstate idea-move <id> --status <approved|discarded>");
                     process.exit(1);
                 }
-                const result = await planMove(cwd, id, required(flags, "status"), flags["task-id"]);
+                const result = await ideaMove(cwd, id, required(flags, "status"), flags["task-id"]);
                 output(result, json);
                 break;
             }

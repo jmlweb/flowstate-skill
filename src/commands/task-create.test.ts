@@ -3,13 +3,13 @@ import { mkdtemp, rm, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { taskCreate } from "./task-create.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
 });
 
 afterEach(async () => {

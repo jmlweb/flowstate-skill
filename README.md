@@ -2,7 +2,7 @@
 
 # 🌊 Flowstate
 
-**Backlog management for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — tasks, plans, reports, and learnings, all in plain markdown.**
+**Backlog management for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — tasks, ideas, reports, and learnings, all in plain markdown.**
 
 No external services. No databases. Just files and Git.
 
@@ -19,7 +19,7 @@ Flowstate adds a structured, file-based backlog to any project. Everything lives
 ```
 .backlog/
 ├── tasks/          # pending → active → complete
-├── plans/          # pending → approved/discarded
+├── ideas/          # pending → approved/discarded
 ├── reports/        # pending → triaged/discarded
 └── learnings/      # searchable knowledge base
 ```
@@ -39,7 +39,7 @@ claude plugin install flowstate@jmlweb
 ### 2. Initialize your backlog
 
 ```
-/flowstate:init
+/flowstate:setup
 ```
 
 ### 3. Start working
@@ -49,7 +49,7 @@ claude plugin install flowstate@jmlweb
 /flowstate:start-task TSK-001         # start working on it
 # ... do the work ...
 /flowstate:complete-task TSK-001      # mark it done
-/flowstate:status                     # see the big picture
+/flowstate:overview                   # see the big picture
 ```
 
 That's it. You're managing a backlog. 🎉
@@ -123,8 +123,8 @@ Use `/reload-plugins` after making changes.
 
 | Command | Description |
 |---------|-------------|
-| `/flowstate:init` | Create the `.backlog/` directory structure. Safe to re-run |
-| `/flowstate:status` | Backlog overview with stats, active work, and health warnings |
+| `/flowstate:setup` | Create the `.backlog/` directory structure. Safe to re-run |
+| `/flowstate:overview` | Backlog overview with stats, active work, and health warnings |
 
 ### 📝 Tasks
 
@@ -138,12 +138,12 @@ Use `/reload-plugins` after making changes.
 | `/flowstate:next-task` | Smart recommendation based on priority, dependencies, and recent work |
 | `/flowstate:parallel` | Run multiple independent tasks simultaneously in isolated git worktrees |
 
-### 🗺️ Plans
+### 🗺️ Ideas
 
 | Command | Description |
 |---------|-------------|
-| `/flowstate:plan` | Generate an implementation plan — explores code, identifies risks, saves for review |
-| `/flowstate:review-plan` | Approve (converts to task), discard, or revise a pending plan |
+| `/flowstate:idea` | Generate an implementation plan — explores code, identifies risks, saves for review |
+| `/flowstate:review-idea` | Approve (converts to task), discard, or revise a pending plan |
 
 ### 🐛 Reports
 
@@ -173,7 +173,7 @@ Skills that involve starting or planning work automatically load relevant contex
 
 If nothing relevant is found, the skill proceeds silently. The goal is **zero-effort awareness** — the backlog informs the work automatically.
 
-> Affected skills: `start-task`, `next-task`, `plan`, `parallel`
+> Affected skills: `start-task`, `next-task`, `idea`, `parallel`
 
 ### 🤖 Proactive behavior
 
@@ -183,7 +183,7 @@ Claude suggests Flowstate commands when relevant — you don't always need to in
 |-----------|-----------------|
 | 🐛 Discovers a bug while working | `/flowstate:report` |
 | 💡 Learns something non-obvious | `/flowstate:add-learning` |
-| 🏗️ Starting a complex feature | `/flowstate:plan` |
+| 🏗️ Starting a complex feature | `/flowstate:idea` |
 | ✅ Finishes work on a task | `/flowstate:complete-task` |
 | 📖 Before starting work | Reads learnings to avoid past mistakes |
 
@@ -203,10 +203,10 @@ Each subagent works in isolation. Overlap detection prevents conflicts. Results 
 
 ```mermaid
 flowchart TD
-    INIT["/flowstate:init"] --> ADD
+    INIT["/flowstate:setup"] --> ADD
 
-    subgraph Plan
-        PLAN["/flowstate:plan"] --> REVIEW["/flowstate:review-plan"]
+    subgraph Idea
+        PLAN["/flowstate:idea"] --> REVIEW["/flowstate:review-idea"]
         REVIEW -- approve --> ADD
         REVIEW -- discard --> PLAN
     end
@@ -292,7 +292,7 @@ flowchart LR
 │   ├── active/               # TSK-003-fix-pagination.md
 │   ├── complete/             # TSK-002-setup-ci.md
 │   └── index.md              # auto-generated stats
-├── plans/
+├── ideas/
 │   ├── pending/              # PLN-001-api-redesign.md
 │   └── complete/
 ├── reports/
@@ -333,7 +333,7 @@ Implement JWT-based auth for the API.
 | Type | Format | Example |
 |------|--------|---------|
 | Task | `TSK-XXX` | `TSK-001` |
-| Plan | `PLN-XXX` | `PLN-003` |
+| Idea | `PLN-XXX` | `PLN-003` |
 | Report | `RPT-XXX` | `RPT-007` |
 | Learning | `LRN-XXX` | `LRN-002` |
 

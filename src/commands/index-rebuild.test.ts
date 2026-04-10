@@ -6,13 +6,13 @@ import { indexRebuild } from "./index-rebuild.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
 import { learningCreate } from "./learning-create.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
 });
 
 afterEach(async () => {

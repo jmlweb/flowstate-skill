@@ -1,12 +1,12 @@
 export const ENTITY_PREFIXES = {
     task: "TSK",
-    plan: "PLN",
+    idea: "PLN",
     report: "RPT",
     learning: "LRN",
 };
 export const PREFIX_TO_TYPE = {
     TSK: "task",
-    PLN: "plan",
+    PLN: "idea",
     RPT: "report",
     LRN: "learning",
 };

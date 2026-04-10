@@ -16,7 +16,7 @@ Report description (optional): $ARGUMENTS
 
 ## Prerequisites
 
-Verify `.backlog/` exists. If not, tell the user to run `/flowstate:init` first.
+Verify `.backlog/` exists. If not, tell the user to run `/flowstate:setup` first.
 
 ## Workflow
 

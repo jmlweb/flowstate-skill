@@ -31,14 +31,14 @@ afterEach(async () => {
 });
 
 describe("CLI integration", () => {
-  it("init creates .backlog structure", () => {
-    run("init", "--project-name", "IntTest");
+  it("setup creates .backlog structure", () => {
+    run("setup", "--project-name", "IntTest");
     const result = runJson("stats") as Record<string, number>;
-    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(result).toEqual({ pending: 0, active: 0, blocked: 0, complete: 0, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("full task lifecycle: create -> start -> complete", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
 
     const created = runJson(
       "task-create",
@@ -56,17 +56,17 @@ describe("CLI integration", () => {
 
     // Check stats
     const afterStart = runJson("stats") as Record<string, number>;
-    expect(afterStart).toEqual({ pending: 0, active: 1, blocked: 0, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(afterStart).toEqual({ pending: 0, active: 1, blocked: 0, complete: 0, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
 
     // Complete
     run("task-move", "TSK-001", "--to", "complete");
 
     const afterComplete = runJson("stats") as Record<string, number>;
-    expect(afterComplete).toEqual({ pending: 0, active: 0, blocked: 0, complete: 1, pendingPlans: 0, pendingReports: 0, learnings: 0 });
+    expect(afterComplete).toEqual({ pending: 0, active: 0, blocked: 0, complete: 1, pendingIdeas: 0, pendingReports: 0, learnings: 0 });
   });
 
   it("task-list returns items", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
     run("task-create", "--title", "A", "--priority", "P1", "--description", "test");
     run("task-create", "--title", "B", "--priority", "P3", "--description", "test");
 
@@ -75,7 +75,7 @@ describe("CLI integration", () => {
   });
 
   it("next-id returns correct ID", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
     const result = runJson("next-id", "task") as { id: string };
     expect(result.id).toBe("TSK-001");
 
@@ -84,29 +84,29 @@ describe("CLI integration", () => {
     expect(result2.id).toBe("TSK-002");
   });
 
-  it("plan lifecycle: create -> approve", () => {
-    run("init", "--project-name", "IntTest");
+  it("idea lifecycle: create -> approve", () => {
+    run("setup", "--project-name", "IntTest");
 
-    const plan = runJson(
-      "plan-create",
+    const idea = runJson(
+      "idea-create",
       "--title", "Refactor auth",
       "--complexity", "high",
-      "--body", "The plan body",
+      "--body", "The idea body",
     ) as { id: string };
 
-    expect(plan.id).toBe("PLN-001");
+    expect(idea.id).toBe("PLN-001");
 
-    run("plan-move", "PLN-001", "--status", "approved", "--task-id", "TSK-001");
+    run("idea-move", "PLN-001", "--status", "approved", "--task-id", "TSK-001");
 
     // Verify moved to complete
-    const entries = execFileSync("ls", [join(tmp, ".backlog/plans/complete")], {
+    const entries = execFileSync("ls", [join(tmp, ".backlog/ideas/complete")], {
       encoding: "utf-8",
     }).trim();
     expect(entries).toContain("PLN-001");
   });
 
   it("report lifecycle: create -> triage", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
 
     const report = runJson(
       "report-create",
@@ -122,7 +122,7 @@ describe("CLI integration", () => {
   });
 
   it("learning-create creates directory", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
 
     const learning = runJson(
       "learning-create",
@@ -135,7 +135,7 @@ describe("CLI integration", () => {
   });
 
   it("index-rebuild regenerates index", () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
     run("task-create", "--title", "A", "--priority", "P1", "--description", "test");
     run("task-create", "--title", "B", "--priority", "P2", "--description", "test");
     run("task-move", "TSK-001", "--to", "active");
@@ -152,7 +152,7 @@ describe("CLI integration", () => {
   });
 
   it("resolves .backlog/ when running from a subdirectory", async () => {
-    run("init", "--project-name", "IntTest");
+    run("setup", "--project-name", "IntTest");
     run("task-create", "--title", "SubdirTask", "--priority", "P1", "--description", "test");
 
     const sub = join(tmp, "apps", "core", "src");

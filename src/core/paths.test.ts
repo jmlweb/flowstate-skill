@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { ensureDir } from "./fs.js";
-import { backlogRoot, taskDir, planDir, reportDir, taskIndexPath, findBacklogRoot } from "./paths.js";
+import { backlogRoot, taskDir, ideaDir, reportDir, taskIndexPath, findBacklogRoot } from "./paths.js";
 
 describe("paths", () => {
   const cwd = "/project";
@@ -22,9 +22,9 @@ describe("paths", () => {
     expect(taskDir(cwd, "blocked")).toBe("/project/.backlog/tasks/active");
   });
 
-  it("planDir", () => {
-    expect(planDir(cwd, "pending")).toBe("/project/.backlog/plans/pending");
-    expect(planDir(cwd, "complete")).toBe("/project/.backlog/plans/complete");
+  it("ideaDir", () => {
+    expect(ideaDir(cwd, "pending")).toBe("/project/.backlog/ideas/pending");
+    expect(ideaDir(cwd, "complete")).toBe("/project/.backlog/ideas/complete");
   });
 
   it("reportDir", () => {

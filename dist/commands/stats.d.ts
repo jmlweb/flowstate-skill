@@ -3,7 +3,7 @@ export interface BacklogStats {
     readonly active: number;
     readonly blocked: number;
     readonly complete: number;
-    readonly pendingPlans: number;
+    readonly pendingIdeas: number;
     readonly pendingReports: number;
     readonly learnings: number;
 }

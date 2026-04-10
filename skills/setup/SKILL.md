@@ -1,5 +1,5 @@
 ---
-name: init
+name: setup
 description: Initialize the .backlog/ directory structure in the current project. Use when starting a new project, setting up backlog management, or when the user says "set up flowstate", "create backlog", or "initialize tracking". Idempotent.
 argument-hint: [project name]
 allowed-tools: [Bash, Read, Write, Glob]
@@ -28,7 +28,7 @@ If `$ARGUMENTS` is provided, use it as the project name. Otherwise, infer from t
 ### 3. Create Backlog Structure
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" init --project-name "{{PROJECT_NAME}}"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" setup --project-name "{{PROJECT_NAME}}"
 ```
 
 This creates the full directory structure, index files, and templates in one step.
@@ -41,7 +41,7 @@ Report what was created:
 Initialized .backlog/ for {{PROJECT_NAME}}
 
 Structure:
-  .backlog/plans/{pending,complete}/
+  .backlog/ideas/{pending,complete}/
   .backlog/reports/{pending,complete}/
   .backlog/tasks/{pending,active,complete}/
   .backlog/tasks/index.md
@@ -49,9 +49,9 @@ Structure:
 
 Available commands:
   /flowstate:add-task    — Add a new task
-  /flowstate:plan        — Generate an implementation plan
+  /flowstate:idea        — Generate an implementation plan
   /flowstate:report      — File a bug report or finding
-  /flowstate:status      — View backlog overview
+  /flowstate:overview    — View backlog overview
 ```
 
 ## Idempotency

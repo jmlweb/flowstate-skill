@@ -5,14 +5,14 @@ import { tmpdir } from "node:os";
 import { taskBlock } from "./task-block.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
-import { init } from "./init.js";
+import { setup } from "./setup.js";
 import { readEntity } from "../core/fs.js";
 
 let tmp: string;
 
 beforeEach(async () => {
   tmp = await mkdtemp(join(tmpdir(), "flowstate-test-"));
-  await init(tmp, "Test");
+  await setup(tmp, "Test");
   await taskCreate(tmp, {
     title: "Fix bug",
     priority: "P2",
