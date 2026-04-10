@@ -39,10 +39,10 @@ Suggest common categories:
 ### 3. Block Task via CLI
 
 ```bash
-node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-update {{ID}} --set "status=blocked,blocked-by={{REASON}}" --log "Blocked: {{REASON}}"
+node "${CLAUDE_PLUGIN_ROOT}/dist/bin/flowstate.js" task-block {{ID}} --reason "{{REASON}}"
 ```
 
-The CLI updates the frontmatter, adds a progress log entry, and updates `tasks/index.md` automatically. The task file stays in its current directory (pending or active).
+The CLI sets `status: blocked` and `blocked-by` in frontmatter, adds a progress log entry. The task file stays in its current directory (pending or active).
 
 ### 4. Suggest Alternatives
 

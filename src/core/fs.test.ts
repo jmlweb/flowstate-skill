@@ -88,9 +88,8 @@ describe("listFiles", () => {
     ]);
   });
 
-  it("returns empty for non-existent directory", async () => {
-    const files = await listFiles(join(tmp, "nope"));
-    expect(files).toEqual([]);
+  it("throws for non-existent directory", async () => {
+    await expect(listFiles(join(tmp, "nope"))).rejects.toThrow();
   });
 });
 

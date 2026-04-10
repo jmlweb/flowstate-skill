@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { mkdtemp, rm, readFile, readdir } from "node:fs/promises";
+import { mkdtemp, rm, readFile, readdir, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
@@ -149,5 +149,40 @@ describe("CLI integration", () => {
     );
     expect(index).toContain("| Pending | 1 |");
     expect(index).toContain("| Active | 1 |");
+  });
+
+  it("resolves .backlog/ when running from a subdirectory", async () => {
+    run("init", "--project-name", "IntTest");
+    run("task-create", "--title", "SubdirTask", "--priority", "P1", "--description", "test");
+
+    const sub = join(tmp, "apps", "core", "src");
+    await mkdir(sub, { recursive: true });
+
+    const result = execFileSync("node", [CLI, "task-list", "--json", "true"], {
+      cwd: sub,
+      encoding: "utf-8",
+      timeout: 10000,
+    }).trim();
+
+    const items = JSON.parse(result) as unknown[];
+    expect(items).toHaveLength(1);
+  });
+
+  it("exits with error when no .backlog/ exists in any ancestor", async () => {
+    const isolated = await mkdtemp(join(tmpdir(), "flowstate-no-backlog-"));
+    try {
+      execFileSync("node", [CLI, "task-list", "--json", "true"], {
+        cwd: isolated,
+        encoding: "utf-8",
+        timeout: 10000,
+      });
+      expect.unreachable("should have thrown");
+    } catch (err) {
+      const error = err as { status: number; stderr: string };
+      expect(error.status).toBe(1);
+      expect(error.stderr.toString()).toMatch(/No \.backlog\/ directory found/);
+    } finally {
+      await rm(isolated, { recursive: true, force: true });
+    }
   });
 });

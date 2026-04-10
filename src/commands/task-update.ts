@@ -28,6 +28,15 @@ export async function taskUpdate(
     throw new EntityNotFoundError(id, "tasks/{pending,active,complete}");
   }
 
+  const REJECTED_KEYS = ["status", "blocked-by"];
+  for (const key of Object.keys(updates)) {
+    if (REJECTED_KEYS.includes(key)) {
+      throw new Error(
+        `Cannot set "${key}" via task-update. Use task-move for status transitions or task-block/task-unblock for blocking.`,
+      );
+    }
+  }
+
   const doc = await readEntity(filePath);
   const fm = { ...(doc.frontmatter as Record<string, unknown>) };
 

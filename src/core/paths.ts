@@ -1,5 +1,20 @@
-import { join } from "node:path";
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
 import type { EntityType, TaskStatus } from "./types.js";
+
+export function findBacklogRoot(start: string): string {
+  let dir = start;
+  for (;;) {
+    if (existsSync(join(dir, ".backlog"))) return dir;
+    const parent = dirname(dir);
+    if (parent === dir) {
+      throw new Error(
+        `No .backlog/ directory found in ${start} or any parent directory. Run "flowstate init" to create one.`,
+      );
+    }
+    dir = parent;
+  }
+}
 
 export function backlogRoot(cwd: string): string {
   return join(cwd, ".backlog");

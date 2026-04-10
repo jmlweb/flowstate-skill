@@ -1,4 +1,17 @@
-import { join } from "node:path";
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+export function findBacklogRoot(start) {
+    let dir = start;
+    for (;;) {
+        if (existsSync(join(dir, ".backlog")))
+            return dir;
+        const parent = dirname(dir);
+        if (parent === dir) {
+            throw new Error(`No .backlog/ directory found in ${start} or any parent directory. Run "flowstate init" to create one.`);
+        }
+        dir = parent;
+    }
+}
 export function backlogRoot(cwd) {
     return join(cwd, ".backlog");
 }

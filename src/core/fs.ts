@@ -26,12 +26,8 @@ export async function ensureDir(path: string): Promise<void> {
 }
 
 export async function listFiles(dir: string): Promise<Dirent[]> {
-  try {
-    const entries = await readdir(dir, { withFileTypes: true });
-    return entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
-  } catch {
-    return [];
-  }
+  const entries = await readdir(dir, { withFileTypes: true });
+  return entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
 }
 
 export async function findEntityFile(

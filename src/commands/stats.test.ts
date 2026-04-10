@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { stats } from "./stats.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
-import { taskUpdate } from "./task-update.js";
+import { taskBlock } from "./task-block.js";
 import { init } from "./init.js";
 
 let tmp: string;
@@ -40,7 +40,7 @@ describe("stats", () => {
   it("counts blocked tasks separately", async () => {
     await taskCreate(tmp, { title: "A", priority: "P2", tags: [], description: "", criteria: [], source: "manual", dependsOn: [] });
     await taskMove(tmp, "TSK-001", "active");
-    await taskUpdate(tmp, "TSK-001", { status: "blocked", "blocked-by": "waiting" });
+    await taskBlock(tmp, "TSK-001", "waiting");
 
     const result = await stats(tmp);
     expect(result).toEqual({ pending: 0, active: 0, blocked: 1, complete: 0, pendingPlans: 0, pendingReports: 0, learnings: 0 });

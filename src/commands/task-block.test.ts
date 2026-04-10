@@ -2,8 +2,9 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { taskUpdate } from "./task-update.js";
+import { taskBlock } from "./task-block.js";
 import { taskCreate } from "./task-create.js";
+import { taskMove } from "./task-move.js";
 import { init } from "./init.js";
 import { readEntity } from "../core/fs.js";
 
@@ -27,44 +28,36 @@ afterEach(async () => {
   await rm(tmp, { recursive: true, force: true });
 });
 
-describe("taskUpdate", () => {
-  it("updates frontmatter fields", async () => {
-    const result = await taskUpdate(tmp, "TSK-001", {
-      priority: "P1",
-    });
+describe("taskBlock", () => {
+  it("sets status to blocked and adds blocked-by", async () => {
+    const result = await taskBlock(tmp, "TSK-001", "waiting for API");
 
     const doc = await readEntity(result.path);
     const fm = doc.frontmatter as Record<string, unknown>;
-    expect(fm["priority"]).toBe("P1");
+    expect(fm["status"]).toBe("blocked");
+    expect(fm["blocked-by"]).toBe("waiting for API");
   });
 
   it("adds a progress log entry", async () => {
-    const result = await taskUpdate(
-      tmp,
-      "TSK-001",
-      { priority: "P1" },
-      "Escalated priority",
-    );
+    const result = await taskBlock(tmp, "TSK-001", "waiting for API");
 
     const doc = await readEntity(result.path);
-    expect(doc.body).toContain("Escalated priority");
+    expect(doc.body).toContain("Blocked: waiting for API");
   });
 
-  it("rejects status as a key", async () => {
-    await expect(
-      taskUpdate(tmp, "TSK-001", { status: "blocked" }),
-    ).rejects.toThrow(/Cannot set "status" via task-update/);
-  });
+  it("works on active tasks", async () => {
+    await taskMove(tmp, "TSK-001", "active");
+    const result = await taskBlock(tmp, "TSK-001", "dependency missing");
 
-  it("rejects blocked-by as a key", async () => {
-    await expect(
-      taskUpdate(tmp, "TSK-001", { "blocked-by": "waiting for API" }),
-    ).rejects.toThrow(/Cannot set "blocked-by" via task-update/);
+    const doc = await readEntity(result.path);
+    const fm = doc.frontmatter as Record<string, unknown>;
+    expect(fm["status"]).toBe("blocked");
+    expect(fm["blocked-by"]).toBe("dependency missing");
   });
 
   it("throws for non-existent task", async () => {
     await expect(
-      taskUpdate(tmp, "TSK-999", { priority: "P1" }),
+      taskBlock(tmp, "TSK-999", "reason"),
     ).rejects.toThrow("not found");
   });
 });

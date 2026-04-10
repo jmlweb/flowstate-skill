@@ -5,6 +5,7 @@ import { nextId } from "../commands/next-id.js";
 import { taskCreate } from "../commands/task-create.js";
 import { taskList } from "../commands/task-list.js";
 import { taskMove } from "../commands/task-move.js";
+import { taskBlock } from "../commands/task-block.js";
 import { taskUpdate } from "../commands/task-update.js";
 import { taskUnblock } from "../commands/task-unblock.js";
 import { stats } from "../commands/stats.js";
@@ -17,8 +18,7 @@ import { learningCreate } from "../commands/learning-create.js";
 import { learningSearch } from "../commands/learning-search.js";
 import type { EntityType, TaskStatus } from "../core/types.js";
 import { validatePriority, validateComplexity, validateReportType, validateSeverity } from "../core/types.js";
-
-const cwd = process.cwd();
+import { findBacklogRoot } from "../core/paths.js";
 
 function parseArgs(args: readonly string[]): {
   flags: Record<string, string>;
@@ -78,13 +78,16 @@ async function main(): Promise<void> {
 
   if (!command) {
     console.error(
-      "Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create, learning-search",
+      "Usage: flowstate <command> [args]\n\nCommands: init, next-id, task-create, task-list, task-move, task-block, task-update, task-unblock, stats, index-rebuild, plan-create, plan-move, report-create, report-move, learning-create, learning-search",
     );
     process.exit(1);
   }
 
   const { flags, flagArrays, positional } = parseArgs(rest);
   const json = flags["json"] === "true";
+  const cwd = command === "init"
+    ? process.cwd()
+    : findBacklogRoot(process.cwd());
 
   try {
     switch (command) {
@@ -144,6 +147,17 @@ async function main(): Promise<void> {
         }
         const to = toRaw as "active" | "complete" | "pending";
         const result = await taskMove(cwd, id, to);
+        output(result, json);
+        break;
+      }
+
+      case "task-block": {
+        const id = positional[0];
+        if (!id) {
+          console.error("Usage: flowstate task-block <id> --reason <text>");
+          process.exit(1);
+        }
+        const result = await taskBlock(cwd, id, required(flags, "reason"));
         output(result, json);
         break;
       }

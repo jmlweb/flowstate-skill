@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { taskUnblock } from "./task-unblock.js";
 import { taskCreate } from "./task-create.js";
 import { taskMove } from "./task-move.js";
-import { taskUpdate } from "./task-update.js";
+import { taskBlock } from "./task-block.js";
 import { init } from "./init.js";
 import { readEntity } from "../core/fs.js";
 
@@ -32,10 +32,7 @@ describe("taskUnblock", () => {
       dependsOn: [],
     });
     await taskMove(tmp, "TSK-001", "active");
-    await taskUpdate(tmp, "TSK-001", {
-      status: "blocked",
-      "blocked-by": "waiting",
-    });
+    await taskBlock(tmp, "TSK-001", "waiting");
 
     const result = await taskUnblock(tmp, "TSK-001", "API ready");
 
@@ -56,10 +53,7 @@ describe("taskUnblock", () => {
       source: "manual",
       dependsOn: [],
     });
-    await taskUpdate(tmp, "TSK-001", {
-      status: "blocked",
-      "blocked-by": "waiting",
-    });
+    await taskBlock(tmp, "TSK-001", "waiting");
 
     const result = await taskUnblock(tmp, "TSK-001");
 

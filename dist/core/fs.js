@@ -15,13 +15,8 @@ export async function ensureDir(path) {
     await mkdir(path, { recursive: true });
 }
 export async function listFiles(dir) {
-    try {
-        const entries = await readdir(dir, { withFileTypes: true });
-        return entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
-    }
-    catch {
-        return [];
-    }
+    const entries = await readdir(dir, { withFileTypes: true });
+    return entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
 }
 export async function findEntityFile(dir, idPrefix) {
     const files = await listFiles(dir);
